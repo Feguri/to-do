@@ -1,0 +1,47 @@
+@media only screen and (max-width: 1200px ) {
+    .container {
+        width: 60%;
+    }
+    .checkbox p {
+        max-width: 80%;
+        font-size: 21px !important;
+    }
+}
+
+@media only screen and (max-width: 900px ) {
+    .container {
+        width: 80%;
+    }
+    .checkbox p {
+        max-width: 60%;
+        font-size: 19px !important;
+    }
+}
+
+@media only screen and (max-width: 500px ) {
+    .container {
+        width: 95%;
+    }
+    .checkbox p {
+        max-width: 75%;
+        font-size: 14px !important;
+    }
+    .icon {
+        height: 17px;
+        width: 17px;
+    }
+    .icon:hover {
+        height: 17px;
+        width: 17px;
+    }
+
+    .styles-container {
+        grid-template-columns: auto auto;
+    }
+    
+}
+@media only screen and (max-width: 400px ) {
+    .container {
+        width: 99%;
+    }
+}
