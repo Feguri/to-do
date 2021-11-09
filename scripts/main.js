@@ -93,8 +93,19 @@ document.getElementById('add').addEventListener('click', function(){
                 <h3 id="ddd-${idNum}" class="has-text-azure has-background-grey-light is-size-5 style-block primary-border pointer">Abc</h3>
                 <h3 id="fff-${idNum}" class="has-text-black has-background-white is-size-5 style-block pointer">Abc</h3>
 
-  
             </div>
+            <div style="display: flex; flex-direction: column; padding: 15px;"
+            <hr>
+                <h2 class="is-size-4 ml-4 pt-3 pb-2">Custom</h2>
+                <br>
+                <label for="txt" class="is-size-5 pb-1">Text Color: </label>
+                <input type="color" class="mb-3" id="txt-${idNum}" name="txt">
+                <label for="bg" class="is-size-5 pb-1">Background Color: </label>
+                <input type="color" class="mb-3" id="bg-${idNum}" name="bg">
+                
+            </div>
+            <button id="custom-${idNum}" class="has-text-link has-background-link-light pointer" style="margin: 10px 50px;">Apply</button>
+
 
         </div>
 
@@ -134,7 +145,38 @@ document.getElementById('add').addEventListener('click', function(){
         document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.border = 'none';
         document.getElementById(`${evt.currentTarget.idNumber}`).style.marginTop = '16px';
     }
-    
+
+    // Style 1
+
+    document.getElementById(`custom-${idNum}`).addEventListener('click', function(){
+        // Gets hold of styled classes, trim them, wash them with soap, make'em ready to be updated.
+        let elementClassList = String(document.getElementById(`${extractNum(this.id)}`).classList).split(' ');
+        let stylesClassList = String(document.getElementById(`${extractNum(this.id)}`).classList).split(' ');
+        let currentTextColor = elementClassList[0];
+        let currentBg = elementClassList[1];
+        let currentStyleSectionTextColor = stylesClassList[0];
+        let currentStyleSectionBg = stylesClassList[1];
+        
+        // Removes trimmed classes
+        try {
+            document.getElementById(`${extractNum(this.id)}`).classList.remove(currentTextColor);
+            document.getElementById(`${extractNum(this.id)}`).classList.remove(currentBg);
+            document.getElementById(`styles-${extractNum(this.id)}`).classList.remove(currentStyleSectionTextColor);
+            document.getElementById(`styles-${extractNum(this.id)}`).classList.remove(currentStyleSectionBg);
+        } catch(err){
+            // do nothing
+        }
+
+        document.getElementById(`${extractNum(this.id)}`).style.color = document.getElementById(`txt-${extractNum(this.id)}`).value;
+        document.getElementById(`${extractNum(this.id)}`).style.backgroundColor = document.getElementById(`bg-${extractNum(this.id)}`).value;
+        document.getElementById(`styles-${extractNum(this.id)}`).style.color = document.getElementById(`txt-${extractNum(this.id)}`).value;
+        document.getElementById(`styles-${extractNum(this.id)}`).style.backgroundColor = document.getElementById(`bg-${extractNum(this.id)}`).value;
+
+        document.getElementById(`${extractNum(this.id)}`).style.padding = '16px';
+        document.getElementById(`${extractNum(this.id)}`).style.border = 'none';
+        document.getElementById(`styles-${extractNum(this.id)}`).style.border = 'none';
+        document.getElementById(`${extractNum(this.id)}`).style.marginTop = '16px';
+    });
     // Style 1
     document.getElementById(`red-${idNum}`).addEventListener('click', addStyles);
     document.getElementById(`red-${idNum}`).idNumber = idNum;
