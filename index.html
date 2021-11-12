@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="media.css">
     <link rel="stylesheet" href="sidebar.css">
     <script src="scripts/main.js" defer></script>
-    <script src="scripts/darkmode.js" defer></script>
     <script src="https://kit.fontawesome.com/5b22b2a95f.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -21,13 +20,27 @@
 
         <li class="nav-item">
           <span class="new">NEW</span>
-  
           <div class="darkmode">
             <i class="fas fa-moon moon"></i>
             <h2 class="is-size-5 link-text">Dark mode</h2>
             <input id="darkmode" type="checkbox" class="toggle-switch pointer moon ml-3">
           </div>
   
+        </li>
+
+        <li class="nav-item">
+          <span class="new">NEW</span>
+          <div class="flex mb-5">
+            <h2 class="is-size-5 link-text">Change list title</h2>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-1"></i>
+          </div>
+          
+          <div id="list-name">
+            <label for="change-name">New list title:</label>
+            <input id="change-name" name="change-name" class="input is-info mb-5 mt-2" type="text" placeholder="Enter your list title here">
+            <button class="button is-primary" id="update-title">Update</button>
+          </div>
+
         </li>
 
         <li class="nav-item" style="opacity: 70%;">
@@ -46,19 +59,14 @@
           </div>
         </li>
 
-        <li class="nav-item" style="opacity: 70%;">
-          <span class="new">COMING SOON</span>
-          <div class="flex">
-            <h2 class="is-size-5 link-text">Change list name</h2>
-          </div>
-        </li>
-
         <li class="nav-item">
           <div class="flex" style="flex-direction: column; align-items: flex-start; padding: 0 20px; opacity: 95%;">
             <h2 class="is-size-5 link-text">Developer News</h2>
             
                <span class="new mt-5">Nov 11 2021</span>
                <p>Fixed bug where you can't change to a default style after setting a custom style. Version: 0.9.0</p>
+               <span class="new mt-5">Nov 12 2021</span>
+               <p>You can now change your list title. Version: 0.9.1</p>
 
           </div>
         </li>
@@ -75,7 +83,7 @@
   <section class="section">
     <div class="container">
         <div class="topper">
-            <h1 class="title">
+            <h1 class="title" id="list-title">
                 To-do:
               </h1>
               <p class="is-size-4 pl-4 mb-1 has-text-info-dark pointer mb-2" id="add">Add</p>
@@ -95,7 +103,7 @@
     </div>
 
   </section>
-  <div id="footer">
+  <div id="footer" style="margin-left: 80px;">
     Icons made by <a href="https://www.freepik.com" title="Freepik" target="_blank">Freepik</a>
      from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com. </a>
       Styled with <a href="https://bulma.io/" target="_blank">Bulma</a>

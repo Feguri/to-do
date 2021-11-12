@@ -89,9 +89,13 @@
     background-color: rgb(210 220 235 / 54%);
     border-radius: 6px;
     padding: 10px;
+    transition: height 0.09s ease-in-out;
 }
 #about-me {
     margin-top: 150px;
+}
+#list-name {
+    display: none;
 }
 .new {
     border-radius: 6px;
@@ -100,4 +104,9 @@
     font-size: 0.65rem;
     padding: 5px;
     margin-bottom: 5px;
+}
+
+.rotate {
+    transform: rotate(0deg);
+    transition: transform 0.25s;
 }

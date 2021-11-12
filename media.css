@@ -34,6 +34,9 @@
         height: 17px;
         width: 17px;
     }
+    #footer {
+        margin-left: 20px !important;
+    }
 
     .navbar {
         background-color: transparent !important;
