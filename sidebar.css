@@ -1,0 +1,103 @@
+:root {
+    --nav-bg: rgb(242 242 242);
+    --default-nav-width:3.6rem;
+    --nav-item-color-0: rgb(240 240 240 / 54%);
+}
+
+.navbar {
+    width: var(--default-nav-width);
+    height: 100vh;
+    position: fixed;
+    background-color: var(--nav-bg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: width 200ms ease;
+    overflow: auto;
+}
+
+.features-container {
+    display: none;
+}
+
+.arrow-icon {
+    margin-top: 14px;
+    margin-right: 14px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.darkmode {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.moon {
+    margin-top: 14px;
+    margin-right: 14px;
+}
+
+.toggle-switch {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 6em;
+    height: 3em;
+    border-radius: 3em;
+    background-color: #bbc9df;
+    outline: 0;
+    transition: background-color 0.09s ease-in-out;
+    position: relative;
+    transform: scale(0.6);
+}
+.toggle-switch:checked {
+    background-color: rgb(13, 13, 13);
+}
+
+.toggle-switch::after {
+    position: absolute;
+    content: '';
+    width: 3em;
+    height: 3em;
+    background-color: white;
+    border-radius: 3em;
+    transform: scale(0.7);
+    left: 0;
+    transition: left 0.09s ease-in-out;
+}
+.toggle-switch:checked::after {
+    left: 3em;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.link-text {
+    margin-top: 12px;
+    display: block;
+}
+
+.nav-item {
+    margin: 10px 0;
+    background-color: rgb(210 220 235 / 54%);
+    border-radius: 6px;
+    padding: 10px;
+}
+#about-me {
+    margin-top: 150px;
+}
+.new {
+    border-radius: 6px;
+    background-color: rgb(107, 95, 160);
+    color: white;
+    font-size: 0.65rem;
+    padding: 5px;
+    margin-bottom: 5px;
+}

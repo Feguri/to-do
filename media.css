@@ -35,6 +35,10 @@
         width: 17px;
     }
 
+    .navbar {
+        background-color: transparent !important;
+    }
+
     .styles-container {
         grid-template-columns: auto auto;
     }
