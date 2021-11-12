@@ -1,6 +1,8 @@
 let idNum = 1;
 let tasks = {};
 
+tasks["darkmodeToggled"] = false;
+tasks["navbarToggled"] = false;
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
     let filteredStr = '';
@@ -104,7 +106,7 @@ document.getElementById('add').addEventListener('click', function(){
                 <input type="color" class="mb-3" id="bg-${idNum}" name="bg">
                 
             </div>
-            <button id="custom-${idNum}" class="has-text-link has-background-link-light pointer" style="margin: 10px 50px;">Apply</button>
+            <button id="custom-${idNum}" class="is-primary pointer" style="margin: 10px 50px;">Apply</button>
 
 
         </div>
@@ -127,17 +129,34 @@ document.getElementById('add').addEventListener('click', function(){
         let currentStyleSectionTextColor = stylesClassList[0];
         let currentStyleSectionBg = stylesClassList[1];
         
-        // Removes trimmed classes
-        document.getElementById(`${evt.currentTarget.idNumber}`).classList.remove(currentTextColor);
-        document.getElementById(`${evt.currentTarget.idNumber}`).classList.remove(currentBg);
-        document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.remove(currentStyleSectionTextColor);
-        document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.remove(currentStyleSectionBg);
-        
-        // Applies new styles
-        document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
-        document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
-        document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
-        document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
+        function applyColors() {
+            // Try to re move classes, then add them
+            try {
+                // Removes trimmed classes
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.remove(currentTextColor);
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.remove(currentBg);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.remove(currentStyleSectionTextColor);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.remove(currentStyleSectionBg);
+
+                // Applies new styles
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
+            } catch(err){
+                // if it doesn't work, just try to add them
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
+                document.getElementById(`${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.textColor);
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
+
+            }
+
+            
+
+        }
+        applyColors()
+
         
         // Prevents padding and margins from disappearing (for whatever reason they do)
         document.getElementById(`${evt.currentTarget.idNumber}`).style.padding = '16px';
@@ -431,3 +450,58 @@ document.getElementById('clear').addEventListener('click', function(){
         }
     }
 });
+
+// darkmode feature
+document.getElementById('darkmode').addEventListener('click', function(){
+    if (tasks["darkmodeToggled"] === false){
+        document.getElementById('htm').style.backgroundColor = 'rgb(26, 26, 26)';
+        document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(13 13 13)';
+        for (let listItem of document.getElementsByClassName('nav-item')){
+            listItem.style.backgroundColor = 'rgb(42 45 48 / 54%)';
+        }
+        document.getElementsByTagName('body')[0].style.color = '#e2e2e2';
+        document.getElementsByClassName('title')[0].style.color = '#e2e2e2';
+        tasks["darkmodeToggled"] = true;
+    } else {
+        document.getElementById('htm').style.backgroundColor = '#fff';
+        document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(242 242 242)';
+
+        for (let listItem of document.getElementsByClassName('nav-item')){
+            listItem.style.backgroundColor = 'rgb(210 220 235 / 54%)';
+        }
+        
+        document.getElementsByTagName('body')[0].style.color = '#4a4a4a';
+        document.getElementsByClassName('title')[0].style.color = '#4a4a4a';
+        tasks["darkmodeToggled"] = false;
+    }
+    
+});
+
+// Navbar expand feature
+document.getElementById('settings').addEventListener('click', function(){
+    if (tasks["navbarToggled"] === false){
+        document.getElementsByClassName('features-container')[0].style.display = 'block';
+        
+        // Responsiveness for mobile
+        if (screen.width < 500){
+            if (screen.width < 350){
+                document.getElementsByClassName('navbar')[0].style.width = '20rem';
+            } else {
+                document.getElementsByClassName('navbar')[0].style.width = '22rem';
+            }
+            document.getElementsByClassName('container')[0].style.display ='none';
+            document.getElementById('footer').style.display ='none';
+
+        } else {
+            document.getElementsByClassName('navbar')[0].style.width = '25rem';
+        }
+
+        tasks["navbarToggled"] = true;
+    } else {
+        document.getElementsByClassName('features-container')[0].style.display = 'none';
+        document.getElementsByClassName('navbar')[0].style.width = '3.6rem';
+        document.getElementsByClassName('container')[0].style.display ='block';
+        document.getElementById('footer').style.display ='block';
+        tasks["navbarToggled"] = false;
+    }
+})
