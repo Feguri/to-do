@@ -10,3 +10,7 @@ options:
 2. Style text and background
 3. Delete item
 4. Clear all
+
+0.9.0 Update
+-
+Navbar added. Darkmode added.
