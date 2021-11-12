@@ -3,6 +3,8 @@ let tasks = {};
 
 tasks["darkmodeToggled"] = false;
 tasks["navbarToggled"] = false;
+tasks["listNameToggled"] = false;
+
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
     let filteredStr = '';
@@ -21,6 +23,8 @@ function print(...args){
         document.getElementById('debugger-text').innerHTML += ' ' + val;
     }
 }
+
+// document.getElementById("main-content").insertAdjacentHTML("beforeend", **local_storage);
 
 document.getElementById('add').addEventListener('click', function(){
 
@@ -115,6 +119,11 @@ document.getElementById('add').addEventListener('click', function(){
     </div>
     `);
 
+    // Saves data to local storage
+
+    // localStorage.setItem(`item-${idNum}`, JSON.stringify(document.getElementById(`list-item-${idNum}`) ));
+    // print(localStorage);
+
     // Apply flexbox order number for ordering features
     document.getElementById(`list-item-${idNum}`).style.order = String(idNum);
 
@@ -151,9 +160,6 @@ document.getElementById('add').addEventListener('click', function(){
                 document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
 
             }
-
-            
-
         }
         applyColors()
 
@@ -164,8 +170,6 @@ document.getElementById('add').addEventListener('click', function(){
         document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.border = 'none';
         document.getElementById(`${evt.currentTarget.idNumber}`).style.marginTop = '16px';
     }
-
-    // Style 1
 
     document.getElementById(`custom-${idNum}`).addEventListener('click', function(){
         // Gets hold of styled classes, trim them, wash them with soap, make'em ready to be updated.
@@ -504,4 +508,22 @@ document.getElementById('settings').addEventListener('click', function(){
         document.getElementById('footer').style.display ='block';
         tasks["navbarToggled"] = false;
     }
-})
+});
+
+document.getElementsByClassName('rotate')[0].addEventListener('click', function(){
+    if (tasks["listNameToggled"] === false){
+        document.getElementById('list-name').style.display = 'block';
+        document.getElementById('arr-1').style.transform = 'rotate(-180deg)';
+        tasks["listNameToggled"] = true;
+    } else {
+        document.getElementById('list-name').style.display = 'none';
+        document.getElementById('arr-1').style.transform = 'rotate(0deg)';
+        tasks["listNameToggled"] = false;
+    }
+
+});
+
+document.getElementById('update-title').addEventListener('click', function(){
+    let newTitle = document.getElementById('change-name').value;
+    document.getElementById('list-title').innerHTML = newTitle;
+});
