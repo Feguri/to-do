@@ -4,6 +4,8 @@ html {
 
 .container {
     width: 50%;
+    background-color: rgb(246 242 255 / 34%);
+    padding: 20px;
 }
 
 #main-content {
@@ -129,8 +131,34 @@ h3:hover {
     width: 100%;
 }
 
+.display-image {
+    max-width: 100px;
+   max-height: 100px;
+   border-radius: 8px;
+   transition: width 200ms ease;
+   transition: height 200ms ease;
+   margin-top: 20px;;
+}
+.display-image:hover {
+    transform: scale(1.1);
+}
+
+.popup {
+    padding: 20px 15px;
+    border-radius: 6px;
+    margin-top: 28px;
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 .clear {
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .has-background-grey {
