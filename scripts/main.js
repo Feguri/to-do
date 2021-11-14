@@ -4,6 +4,7 @@ let tasks = {};
 tasks["darkmodeToggled"] = false;
 tasks["navbarToggled"] = false;
 tasks["listNameToggled"] = false;
+tasks["listThemeToggled"] = true
 
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -443,15 +444,27 @@ document.getElementById('add').addEventListener('click', function(){
     });
 
     idNum++;
-})
+});
 
 // clear all items functionality
 document.getElementById('clear').addEventListener('click', function(){
-    while (document.getElementById('main-content').children.length !== 0){
-        let list = document.getElementById('main-content').children;
-        for (let item of list){
-           item.remove()
+    function clear(){
+        while (document.getElementById('main-content').children.length !== 0){
+            let list = document.getElementById('main-content').children;
+            for (let item of list){
+               item.remove();
+            }
         }
+    }
+    if (document.getElementById('main-content').children.length !== 0){
+        document.getElementsByClassName('popup')[0].style.display = 'block';
+        document.getElementById('yes').addEventListener('click', function(){
+            clear();
+            document.getElementsByClassName('popup')[0].style.display = 'none';
+        });
+        document.getElementById('no').addEventListener('click', function(){
+            document.getElementsByClassName('popup')[0].style.display = 'none';
+        });
     }
 });
 
@@ -465,6 +478,7 @@ document.getElementById('darkmode').addEventListener('click', function(){
         }
         document.getElementsByTagName('body')[0].style.color = '#e2e2e2';
         document.getElementsByClassName('title')[0].style.color = '#e2e2e2';
+        document.getElementsByClassName('container')[0].style.backgroundColor = 'rgb(246 242 255 / 1%)';
         tasks["darkmodeToggled"] = true;
     } else {
         document.getElementById('htm').style.backgroundColor = '#fff';
@@ -476,6 +490,7 @@ document.getElementById('darkmode').addEventListener('click', function(){
         
         document.getElementsByTagName('body')[0].style.color = '#4a4a4a';
         document.getElementsByClassName('title')[0].style.color = '#4a4a4a';
+        document.getElementsByClassName('container')[0].style.backgroundColor = 'rgb(246 242 255 / 34%)';
         tasks["darkmodeToggled"] = false;
     }
     
@@ -510,6 +525,7 @@ document.getElementById('settings').addEventListener('click', function(){
     }
 });
 
+// show more list name func
 document.getElementsByClassName('rotate')[0].addEventListener('click', function(){
     if (tasks["listNameToggled"] === false){
         document.getElementById('list-name').style.display = 'block';
@@ -520,9 +536,22 @@ document.getElementsByClassName('rotate')[0].addEventListener('click', function(
         document.getElementById('arr-1').style.transform = 'rotate(0deg)';
         tasks["listNameToggled"] = false;
     }
-
 });
 
+// show more list theme func
+document.getElementsByClassName('rotate')[1].addEventListener('click', function(){
+    if (tasks["listThemeToggled"] === false){
+        document.getElementById('list-name').style.display = 'block';
+        document.getElementById('arr-1').style.transform = 'rotate(-180deg)';
+        tasks["listThemeToggled"] = true;
+    } else {
+        document.getElementById('list-name').style.display = 'none';
+        document.getElementById('arr-1').style.transform = 'rotate(0deg)';
+        tasks["listThemeToggled"] = false;
+    }
+});
+
+// changes list title
 document.getElementById('update-title').addEventListener('click', function(){
     let newTitle = document.getElementById('change-name').value;
     document.getElementById('list-title').innerHTML = newTitle;
