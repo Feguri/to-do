@@ -15,4 +15,8 @@ options:
 -
 Navbar added. Darkmode added.
 
+0.9.3 Update
+-
+You can now choose different background images to style your list!
+
 link: https://feguri.github.io/to-do/
