@@ -583,7 +583,7 @@ document.getElementById('mountain').addEventListener('click', function(){
 
     document.getElementById('add').style.color = 'white';
     document.getElementById('clear').style.color = 'white';
-    document.getElementById('list-title').style.color = 'white';
+    document.getElementById('list-title').style.color = 'black';
 
     document.getElementById('htm').classList.add('has-background-mountain');
     document.getElementById('list-bg').classList.add('has-blurred-background');
