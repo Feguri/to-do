@@ -31,6 +31,10 @@
     justify-content: space-between;
 }
 
+#no-theme {
+    display: none;
+}
+
 .darkmode {
     display: flex;
     align-items: center;
@@ -86,17 +90,20 @@
 
 .nav-item {
     margin: 10px 0;
-    background-color: rgb(210 220 235 / 54%);
+    background-color: rgb(210 220 235 / 90%);
     border-radius: 6px;
     padding: 10px;
     transition: height 0.09s ease-in-out;
 }
+
 #about-me {
     margin-top: 150px;
 }
+
 #list-name {
     display: none;
 }
+
 .new {
     border-radius: 6px;
     background-color: rgb(107, 95, 160);
@@ -110,3 +117,4 @@
     transform: rotate(0deg);
     transition: transform 0.25s;
 }
+

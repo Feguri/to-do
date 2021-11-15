@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="sidebar.css">
     <script src="scripts/main.js" defer></script>
     <script src="https://kit.fontawesome.com/5b22b2a95f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/jpg" href="Icons/favicon.ico"/>
   </head>
   <body>
 
@@ -41,16 +42,71 @@
 
         </li>
 
-        <li class="nav-item"  style="opacity: 70%;">
-          <span class="new">COMING SOON</span>
+        <li class="nav-item">
+          <span class="new">NEW</span>
           <div class="flex">
             <h2 class="is-size-5 link-text">Theme</h2>
-            <i class="fas fa-chevron-up arrow-icon pointer rotate"></i>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-2"></i>
           </div>
 
-          <div id="theme-1" class="column">
+          <div class="no-themes-container" id="no-theme">
+            <button class="button is-primary" id="default">Back to default</button>
+          </div>
+
+          <div class="nature-container">
+
+            <!-- Canada theme -->
+            <div class="themes-container pl-2 pr-2" id="canada-theme">
+              <div class="pointer mt-5">
+                <div class="flex">
+                  <h2 class="is-size-4 mb-3">Canadian Wilderness</h2>
+                </div>
+                <img src="Icons/pexels-eberhard-grossgasteiger-443446.jpg" id="canada" class="theme" alt="Canadian Background">
+              </div>
+            </div>
+            
+            <!-- moon theme -->
+            <div class="themes-container pl-2 pr-2" id="moon-theme">
+              <div class="pointer">
+                <div class="flex">
+                  <div class="column">
+                    <h2 class="is-size-4 mb-3">Moon & Tree</h2>
+                    <p>(looks good on dark mode)</p>
+                  </div>
+                </div>
+                <img src="Icons/pexels-david-besh-884788.jpg" id="moon" class="theme" alt="Moon and tree">
+              </div>
+            </div>
+
+            <!-- mountain theme -->
+            <div class="themes-container pl-2 pr-2" id="mountain-theme">
+              <div class="pointer">
+                <div class="flex">
+                  <div class="column">
+                    <h2 class="is-size-4 mb-3">Mountains</h2>
+                  </div>
+                </div>
+                <img src="Icons/pexels-roberto-shumski-1903702.jpg" id="mountain" class="theme" alt="Mountains">
+              </div>
+            </div>
+
+            <!-- Beach theme -->
+            <div class="themes-container pl-2 pr-2" id="beach-theme">
+              <div class="pointer">
+                <div class="flex">
+                  <div class="column">
+                    <h2 class="is-size-4 mb-3">Palm tree beach</h2>
+                  </div>
+                </div>
+                <img src="Icons/pexels-fabian-wiktor-994605.jpg" id="beach" class="theme" alt="Mountains">
+              </div>
+            </div>
+
+
+
 
           </div>
+
         </li>
 
         <li class="nav-item" style="opacity: 70%;">
@@ -66,11 +122,19 @@
           <div class="flex" style="flex-direction: column; align-items: flex-start; padding: 0 20px; opacity: 95%;">
             <h2 class="is-size-5 link-text">Developer News</h2>
             
-              <span class="new mt-5">Nov 13 2021</span>
-              <p>New subreddit: <a href="https://www.reddit.com/r/colorlist/" target="_blank">r/colorlist</a>.
-                You can share the way you style your list there, make suggestions, and report <b>bugs</b>!</p>
-                <p>We'll get a new update and domain by Monday. I also fixed the bug where you could accidentally delete everything.</p>
-              <p>Version: 0.9.2</p>
+              <span class="new mt-5">Nov 15 2021</span>
+              <p>I added new background themes. Next up: more styles and gradient stuff!</p>
+              <p>Version: 0.9.3</p>
+
+              <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
+                <span class="new mt-5">Nov 13 2021</span>
+                <p>New subreddit: <a href="https://www.reddit.com/r/colorlist/" target="_blank">r/colorlist</a>.
+                  You can share the way you style your list there, make suggestions, and report <b>bugs</b>!</p>
+                  <p>We'll get a new update and domain by Monday. I also fixed the bug where you could accidentally delete everything.</p>
+                <p>Version: 0.9.2</p>
+              </div>
+              
+
 
               <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
                 <span class="new mt-5">Nov 12 2021</span>
@@ -96,18 +160,19 @@
   </nav>
 
   <section class="section">
-    <div class="container">
+    <div class="container" id="list-bg">
         <div class="topper">
             <h1 class="title" id="list-title">
                 To-do:
               </h1>
-              <p class="is-size-4 pl-4 mb-1 has-text-info-dark pointer mb-2" id="add">Add</p>
+              <p class="is-size-4 pl-4 mb-1 pointer mb-2" id="add">Add</p>
         </div>
 
       
     <div id="main-content">
         
     </div>
+
     <div class="clear">
       <div class="popup has-text-danger has-background-danger-light">
         <h2 class="is-size-5">Are you sure you want to delete all items?</h3>
@@ -116,7 +181,7 @@
             <button id="yes" class="button is-danger">Yes</button>
           </div>
       </div>
-      <p class="is-size-5 pl-4 has-text-info-dark pointer mt-5" id="clear">Clear</p>
+      <p class="is-size-5 pl-4 pointer mt-5" id="clear">Clear</p>
     </div>
 
 
