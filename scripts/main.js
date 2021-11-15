@@ -4,7 +4,10 @@ let tasks = {};
 tasks["darkmodeToggled"] = false;
 tasks["navbarToggled"] = false;
 tasks["listNameToggled"] = false;
-tasks["listThemeToggled"] = true
+tasks["listThemeToggled"] = false;
+tasks["background-blurred"] = false;
+tasks["current-background"] = null;
+tasks['current-blurr'] = null;
 
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -474,7 +477,7 @@ document.getElementById('darkmode').addEventListener('click', function(){
         document.getElementById('htm').style.backgroundColor = 'rgb(26, 26, 26)';
         document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(13 13 13)';
         for (let listItem of document.getElementsByClassName('nav-item')){
-            listItem.style.backgroundColor = 'rgb(42 45 48 / 54%)';
+            listItem.style.backgroundColor = 'rgb(42 45 48 / 90%)';
         }
         document.getElementsByTagName('body')[0].style.color = '#e2e2e2';
         document.getElementsByClassName('title')[0].style.color = '#e2e2e2';
@@ -485,7 +488,7 @@ document.getElementById('darkmode').addEventListener('click', function(){
         document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(242 242 242)';
 
         for (let listItem of document.getElementsByClassName('nav-item')){
-            listItem.style.backgroundColor = 'rgb(210 220 235 / 54%)';
+            listItem.style.backgroundColor = 'rgb(210 220 235 / 90%)';
         }
         
         document.getElementsByTagName('body')[0].style.color = '#4a4a4a';
@@ -538,17 +541,102 @@ document.getElementsByClassName('rotate')[0].addEventListener('click', function(
     }
 });
 
+// Add canadian theme
+document.getElementById('canada').addEventListener('click', function(){
+
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = 'black';
+    document.getElementById('clear').style.color = 'black';
+
+    // adds a class to html that contains the image
+    document.getElementById('htm').classList.add('has-background-canada');
+    document.getElementById('list-bg').classList.add('has-blurred-background');
+    tasks['current-background'] = 'has-background-canada';
+    tasks['current-blurr'] = 'has-blurred-background';
+});
+
+// Add moon theme
+document.getElementById('moon').addEventListener('click', function(){
+
+    // adds a class to html that contains the image
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = 'white';
+    document.getElementById('clear').style.color = 'white';
+
+    document.getElementById('htm').classList.add('has-background-moon');
+    document.getElementById('list-bg').classList.add('has-blurred-background');
+
+    tasks['current-background'] = 'has-background-moon';
+    tasks['current-blurr'] = 'has-blurred-background';
+});
+
+// Add mountains theme
+document.getElementById('mountain').addEventListener('click', function(){
+
+    // adds a class to html that contains the image
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = 'white';
+    document.getElementById('clear').style.color = 'white';
+    document.getElementById('list-title').style.color = 'white';
+
+    document.getElementById('htm').classList.add('has-background-mountain');
+    document.getElementById('list-bg').classList.add('has-blurred-background');
+
+    tasks['current-background'] = 'has-background-mountain';
+    tasks['current-blurr'] = 'has-blurred-background';
+});
+
+// Add beach theme
+document.getElementById('beach').addEventListener('click', function(){
+
+    // adds a class to html that contains the image
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = 'white';
+    document.getElementById('clear').style.color = 'white';
+    document.getElementById('list-title').style.color = 'white';
+
+    document.getElementById('htm').classList.add('has-background-beach');
+    document.getElementById('list-bg').classList.add('has-blurred-background');
+
+    tasks['current-background'] = 'has-background-beach';
+    tasks['current-blurr'] = 'has-blurred-background';
+});
+
 // show more list theme func
 document.getElementsByClassName('rotate')[1].addEventListener('click', function(){
     if (tasks["listThemeToggled"] === false){
-        document.getElementById('list-name').style.display = 'block';
-        document.getElementById('arr-1').style.transform = 'rotate(-180deg)';
+        document.getElementById('no-theme').style.display = 'block';
+        document.getElementById('canada-theme').style.display = 'block';
+        document.getElementById('moon-theme').style.display = 'block';
+        document.getElementById('mountain-theme').style.display = 'block';
+        document.getElementById('beach-theme').style.display = 'block';
+
+        document.getElementById('arr-2').style.transform = 'rotate(-180deg)';
         tasks["listThemeToggled"] = true;
     } else {
-        document.getElementById('list-name').style.display = 'none';
-        document.getElementById('arr-1').style.transform = 'rotate(0deg)';
+        document.getElementById('no-theme').style.display = 'none';
+        document.getElementById('canada-theme').style.display = 'none';
+        document.getElementById('moon-theme').style.display = 'none';
+        document.getElementById('mountain-theme').style.display = 'none';
+        document.getElementById('beach-theme').style.display = 'none';
+
+        document.getElementById('arr-2').style.transform = 'rotate(0deg)';
+
         tasks["listThemeToggled"] = false;
     }
+});
+
+document.getElementById('default').addEventListener('click', function(){
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
 });
 
 // changes list title
