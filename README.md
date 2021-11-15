@@ -11,6 +11,10 @@ options:
 3. Delete item
 4. Clear all
 
+How to use
+-
+## 1. Adding a list item
+
 0.9.0 Update
 -
 Navbar added. Darkmode added.
