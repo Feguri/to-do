@@ -8,6 +8,8 @@ tasks["listThemeToggled"] = false;
 tasks["background-blurred"] = false;
 tasks["current-background"] = null;
 tasks['current-blurr'] = null;
+tasks['current-listItem-background'] = 'has-background-link-light';
+tasks['current-listItem-color'] = 'has-text-info-dark';
 
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -43,7 +45,7 @@ document.getElementById('add').addEventListener('click', function(){
     // Renders the HTML version of the list item in the page
     document.getElementById("main-content").insertAdjacentHTML("beforeend", `
     <div id="list-item-${idNum}">
-    <div class="has-background-link-light has-text-info-dark p-4 mt-4" id="${idNum}">
+    <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} p-4 mt-4" id="${idNum}">
 
       <div class="checkbox space-between">
 
@@ -57,7 +59,7 @@ document.getElementById('add').addEventListener('click', function(){
 
             </label>
         </div>
-            <div class="checkbox" style="width: 50%;justify-content: flex-end;">
+            <div class="checkbox" style="width: 50%; justify-content: flex-end;">
                 <button id="set-${idNum}" class="button is-primary mr-4 ml-4">set</button>
                 <!-- Edit button -->
                 <img id="edit-${idNum}" src="Icons/icons8-edit-32.png" class="icon mr-4 ml-4" alt="edit" style="opacity: 70%; display: none;">
@@ -74,7 +76,7 @@ document.getElementById('add').addEventListener('click', function(){
         </div>
         </div>
 
-        <div class="has-background-link-light has-text-info-dark style" id="styles-${idNum}" style="display: none;">
+        <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} style" id="styles-${idNum}" style="display: none;">
             <h2 class="is-size-4 ml-4 pt-3">Style</h2>
             <div class="styles-container">
 
@@ -164,16 +166,21 @@ document.getElementById('add').addEventListener('click', function(){
                 document.getElementById(`styles-${evt.currentTarget.idNumber}`).classList.add(evt.currentTarget.bgColor);
 
             }
+            tasks['current-listItem-background'] = evt.currentTarget.bgColor;
+            tasks['current-listItem-color'] = evt.currentTarget.textColor;
         }
         applyColors()
 
         
         // Prevents padding and margins from disappearing (for whatever reason they do)
         document.getElementById(`${evt.currentTarget.idNumber}`).style.padding = '16px';
-        document.getElementById(`${evt.currentTarget.idNumber}`).style.border = 'none';
-        document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.border = 'none';
+        document.getElementById(`${evt.currentTarget.idNumber}`).style.borderColor = 'transparent';
+        document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.borderColor = 'transparent';
         document.getElementById(`${evt.currentTarget.idNumber}`).style.marginTop = '16px';
     }
+
+    document.getElementById(`${idNum}`).style.borderColor = 'transparent';
+    document.getElementById(`styles-${idNum}`).style.borderColor = 'transparent';
 
     document.getElementById(`custom-${idNum}`).addEventListener('click', function(){
         // Gets hold of styled classes, trim them, wash them with soap, make'em ready to be updated.
@@ -494,6 +501,9 @@ document.getElementById('darkmode').addEventListener('click', function(){
         document.getElementsByTagName('body')[0].style.color = '#4a4a4a';
         document.getElementsByClassName('title')[0].style.color = '#4a4a4a';
         document.getElementsByClassName('container')[0].style.backgroundColor = 'rgb(246 242 255 / 34%)';
+
+        document.getElementById('add').style.color = 'black';
+        document.getElementById('clear').style.color = 'black';
         tasks["darkmodeToggled"] = false;
     }
     
@@ -524,6 +534,9 @@ document.getElementById('settings').addEventListener('click', function(){
         document.getElementsByClassName('navbar')[0].style.width = '3.6rem';
         document.getElementsByClassName('container')[0].style.display ='block';
         document.getElementById('footer').style.display ='block';
+        for(let click of document.getElementsByClassName('rotate')){
+            click.click();
+        }
         tasks["navbarToggled"] = false;
     }
 });
@@ -637,6 +650,10 @@ document.getElementsByClassName('rotate')[1].addEventListener('click', function(
 document.getElementById('default').addEventListener('click', function(){
     document.getElementById(`htm`).classList.remove(tasks['current-background']);
     document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = 'black';
+    document.getElementById('clear').style.color = 'black';
+    document.getElementById('list-title').style.color = 'black';
 });
 
 // changes list title
