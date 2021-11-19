@@ -1,6 +1,7 @@
 let idNum = 1;
 let tasks = {};
 
+// Key CANNOT start with "ta" UNLESS it's an object.
 tasks["darkmodeToggled"] = false;
 tasks["navbarToggled"] = false;
 tasks["listNameToggled"] = false;
@@ -10,6 +11,10 @@ tasks["current-background"] = null;
 tasks['current-blurr'] = null;
 tasks['current-listItem-background'] = 'has-background-link-light';
 tasks['current-listItem-color'] = 'has-text-info-dark';
+tasks['currentAddColor'] = 'black';
+tasks['currentClearColor'] = 'black';
+tasks['currentListTitleColor'] = 'black';
+tasks['has-theme'] = false;
 
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -30,7 +35,69 @@ function print(...args){
     }
 }
 
-// document.getElementById("main-content").insertAdjacentHTML("beforeend", **local_storage);
+window.onload =  function(){
+    let savedTasks = JSON.parse(localStorage.getItem('tasks'));
+    if (JSON.parse(localStorage.getItem('idNumber')) !== null){
+        idNum = JSON.parse(localStorage.getItem('idNumber'));
+    }
+    
+    if (savedTasks['darkmodeToggled']){
+        document.getElementById('darkmode').click();
+        // turnDark();
+    }
+    tasks = savedTasks;
+
+    // sets the previous theme
+    document.getElementById('add').style.color = savedTasks['currentAddColor'];
+    document.getElementById('clear').style.color = savedTasks['currentClearColor'];
+    document.getElementById('list-title').style.color = savedTasks['currentListTitleColor'];
+
+    document.getElementById('htm').classList.add(savedTasks['current-background']);
+    document.getElementById('list-bg').classList.add(savedTasks['current-blurr']);
+
+    tasks['current-background'] = savedTasks['current-background'];
+    tasks['current-blurr'] = savedTasks['current-blurr'];
+
+    tasks['currentAddColor'] = savedTasks['currentAddColor'];
+    tasks['currentClearColor']= savedTasks['currentClearColor'];
+    tasks['currentListTitleColor'] = savedTasks['currentListTitleColor'];
+
+
+    let toString = JSON.stringify(JSON.parse(localStorage.getItem('list')).children) ;
+    document.getElementById('main-content').innerHTML = toString;
+    // loadPrevious();
+
+}
+
+function loadPrevious(){
+    for (let previousListItems of document.getElementById('main-content').children){
+        print(previousListItems.id, 'hi');
+        // document.getElementById(`more-${extractNum(previousListItems.id)}`).addEventListener('click', function(){
+        //     if (tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] === false){
+        //         document.getElementById(`edit-${extractNum(previousListItems.id)}`).style.display = 'block';
+        //         document.getElementById(`style-${extractNum(previousListItems.id)}`).style.display = 'block';
+        //         document.getElementById(`bin-${extractNum(previousListItems.id)}`).style.display = 'block';
+        //         // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'block';
+        //         // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'block';
+    
+    
+        //         tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] = true;
+        //     } else {
+        //         document.getElementById(`edit-${extractNum(previousListItems.id)}`).style.display = 'none';
+        //         document.getElementById(`style-${extractNum(previousListItems.id)}`).style.display = 'none';
+        //         document.getElementById(`bin-${extractNum(previousListItems.id)}`).style.display = 'none';
+        //         document.getElementById(`styles-${extractNum(previousListItems.id)}`).style.display = 'none';
+        //         // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'none';
+        //         // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'none';
+     
+        //         tasks[`task-${extractNum(previousListItems.id)}`]["styles-open"] = false;
+        //         tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] = false;
+        //     }
+        // });
+    }
+}
+
+
 
 document.getElementById('add').addEventListener('click', function(){
 
@@ -40,12 +107,22 @@ document.getElementById('add').addEventListener('click', function(){
     tasks[`task-${idNum}`]["expanded"] = false;
     tasks[`task-${idNum}`]["is-set"] = false;
     tasks[`task-${idNum}`]['styles-open'] = false;
+
+    tasks[`task-${idNum}`]['light-styles-open'] = false;
+    tasks[`task-${idNum}`]['dark-styles-open'] = false;
+    tasks[`task-${idNum}`]['custom-styles-open'] = false;
+    tasks[`task-${idNum}`]['font-styles-open'] = false;
+
     tasks[`task-${idNum}`]['order-ratio'] = 0;
+
+    tasks[`task-${idNum}`]["current-color"] = tasks['current-listItem-color'];
+    tasks[`task-${idNum}`]["current-background"] = tasks['current-listItem-background'];
+    tasks[`task-${idNum}`]["current-value"] = null;
     
     // Renders the HTML version of the list item in the page
     document.getElementById("main-content").insertAdjacentHTML("beforeend", `
-    <div id="list-item-${idNum}">
-    <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} p-4 mt-4" id="${idNum}">
+    <div id="list-item-${idNum}" >
+    <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} p-4 mt-4" id="${idNum}" name="list-item">
 
       <div class="checkbox space-between">
 
@@ -55,68 +132,139 @@ document.getElementById('add').addEventListener('click', function(){
                 <input type="checkbox" id="check-${idNum}">
                 <input id="input-${idNum}" class="input is-info ml-4 personalized-input" type="text" placeholder="click here to enter text">
 
-                <p id="to-do-${idNum}" class="is-size-5 pl-4 mb-1 hidden">todo stuff</p>
+                <p id="to-do-${idNum}" class="is-size-5 pl-4 mb-1 hidden text"></p>
 
             </label>
         </div>
             <div class="checkbox" style="width: 50%; justify-content: flex-end;">
                 <button id="set-${idNum}" class="button is-primary mr-4 ml-4">set</button>
                 <!-- Edit button -->
-                <img id="edit-${idNum}" src="Icons/icons8-edit-32.png" class="icon mr-4 ml-4" alt="edit" style="opacity: 70%; display: none;">
+                <img id="edit-${idNum}" src="Icons/icons8-edit-32.png" class="iconic mr-4 ml-4" alt="edit" style="opacity: 70%; display: none;">
 
                 <!-- Style button -->
-                <img id="style-${idNum}" src="Icons/icons8-paint-24.png" class="icon mr-4" alt="edit" style="opacity: 70%; display: none;">
+                <img id="style-${idNum}" src="Icons/icons8-paint-24.png" class="iconic mr-4" alt="edit" style="opacity: 70%; display: none;">
 
                 <!-- Delete button -->
-                <img id="bin-${idNum}" src="Icons/bin.png" class="icon mr-4" alt="delete" style="opacity: 70%; display: none;">
+                <img id="bin-${idNum}" src="Icons/bin.png" class="iconic mr-4" alt="delete" style="opacity: 70%; display: none;">
 
                 <!-- More options button -->
-                <img id="more-${idNum}" src="Icons/more.png" class="ml-4 icon" style="opacity: 54%; display:none;" alt="more">
+                <img id="more-${idNum}" src="Icons/more.png" class="ml-4 iconic" style="opacity: 54%; display:none;" alt="more">
             </div>
         </div>
         </div>
 
-        <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} style" id="styles-${idNum}" style="display: none;">
+        <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} style" id="styles-${idNum}" style="display: none;" name="list-style">
             <h2 class="is-size-4 ml-4 pt-3">Style</h2>
-            <div class="styles-container">
+            <p id="tip" style="opacity: 60%;margin-left: 17px;margin-top: 10px;margin-bottom: 35px;font-size: 0.93rem;">
+                Tip: press <b>shift + click</b> to apply the style to <b><i>all</i></b> list items 
+            </p>
 
-                <h3 id="zzz-${idNum}" class="has-text-purple has-background-purple-light is-size-5 style-block darkblue-border pointer">Abc</h3>
-                <h3 id="xxx-${idNum}" class="has-text-orange has-background-orange is-size-5 style-block primary-border pointer">Abc</h3>
-                <h3 id="ccc-${idNum}" class="has-text-irish-green has-background-irish is-size-5 style-block pointer">Abc</h3>
-                <h3 id="vvv-${idNum}" class="has-text-pink has-background-pink is-size-5 style-block pointer">Abc</h3>
+            <div class="block-${idNum}">
+                <div class="styles-container">
 
-                <h3 id="red-${idNum}" class="has-text-danger has-background-danger-light is-size-5 style-block red-border pointer">Abc</h3>
-                <h3 id="yel-${idNum}" class="has-text-warning-dark has-background-warning-light is-size-5 style-block yellow-border pointer">Abc</h3>
-                <h3 id="gre-${idNum}" class="has-text-success has-background-success-light is-size-5 style-block green-border pointer">Abc</h3>
-                <h3 id="blu-${idNum}" class="has-text-info has-background-info-light is-size-5 style-block blue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="zzz-${idNum}" class="has-text-purple has-background-purple-light is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="xxx-${idNum}" class="has-text-orange has-background-orange is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="ccc-${idNum}" class="has-text-irish-green has-background-irish is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="vvv-${idNum}" class="has-text-pink has-background-pink is-size-5 style-block pointer">Abc</h3>
 
-                <h3 id="dar-${idNum}" class="has-text-link has-background-link-light is-size-5 style-block darkblue-border pointer">Abc</h3>
-                <h3 id="pri-${idNum}" class="has-text-primary has-background-primary-light is-size-5 style-block primary-border pointer">Abc</h3>
-                <h3 id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
-                <h3 id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
-
-                <h3 id="inf-${idNum}" class="has-text-white has-background-info-dark is-size-5 style-block darkblue-border pointer">Abc</h3>
-                <h3 id="suc-${idNum}" class="has-text-white has-background-success-dark is-size-5 style-block primary-border pointer">Abc</h3>
-                <h3 id="war-${idNum}" class="has-text-white has-background-warning-dark is-size-5 style-block pointer">Abc</h3>
-                <h3 id="dan-${idNum}" class="has-text-white has-background-danger-dark is-size-5 style-block pointer">Abc</h3>
-
-                <h3 id="aaa-${idNum}" class="has-text-white has-background-darker-gray is-size-5 style-block pointer">Abc</h3>
-                <h3 id="sss-${idNum}" class="has-text-white has-background-grey is-size-5 style-block darkblue-border pointer">Abc</h3>
-                <h3 id="ddd-${idNum}" class="has-text-azure has-background-grey-light is-size-5 style-block primary-border pointer">Abc</h3>
-                <h3 id="fff-${idNum}" class="has-text-black has-background-white is-size-5 style-block pointer">Abc</h3>
-
+                    <h3 unselectable="on" id="red-${idNum}" class="has-text-danger has-background-danger-light is-size-5 style-block red-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="yel-${idNum}" class="has-text-warning-dark has-background-warning-light is-size-5 style-block yellow-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="gre-${idNum}" class="has-text-success has-background-success-light is-size-5 style-block green-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="blu-${idNum}" class="has-text-info has-background-info-light is-size-5 style-block blue-border pointer">Abc</h3>
+    
+                    <h3 unselectable="on" id="dar-${idNum}" class="has-text-link has-background-link-light is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="pri-${idNum}" class="has-text-primary has-background-primary-light is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="q1q-${idNum}" class="has-text-rouge has-background-rouge is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="w2w-${idNum}" class="has-text-bluey has-background-bluey is-size-5 style-block primary-border pointer">Abc</h3>
+                </div>
             </div>
+            <div class="block-${idNum}">
+                <div class="styles-container">
+                    <h3 unselectable="on" id="inf-${idNum}" class="has-text-white has-background-info-dark is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" style="border-color: transparent;" id="suc-${idNum}" class="has-text-white has-background-success-dark is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="war-${idNum}" class="has-text-white has-background-warning-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="dan-${idNum}" class="has-text-white has-background-danger-dark is-size-5 style-block pointer">Abc</h3>
+
+                    <h3 unselectable="on" id="aaa-${idNum}" class="has-text-white has-background-darker-gray is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="sss-${idNum}" class="has-text-white has-background-grey is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="ddd-${idNum}" class="has-text-azure has-background-grey-light is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="fff-${idNum}" class="has-text-black has-background-white is-size-5 style-block pointer">Abc</h3>
+
+                    <h3 unselectable="on" id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="pur-${idNum}" class="has-text-white has-background-purple is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="pot-${idNum}" class="has-text-white has-background-green is-size-5 style-block pointer">Abc</h3>
+
+                    <h3 unselectable="on" id="trt-${idNum}" class="a has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="rer-${idNum}" class="b has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="ewe-${idNum}" class="c has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="wqw-${idNum}" class="d has-text-white  is-size-5 style-block pointer">Abc</h3>
+ 
+                    <h3 unselectable="on" id="hgh-${idNum}" class="e has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="gfg-${idNum}" style="border-color: transparent;" class="f has-text-white  is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="fdf-${idNum}" style="border-color: transparent;" class="g has-text-white  is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="dsd-${idNum}" class="h has-text-white  is-size-5 style-block pointer">Abc</h3>
+ 
+                    <h3 unselectable="on" id="sas-${idNum}" class="i has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="mnm-${idNum}" class="j has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="nbn-${idNum}" class="k has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="bvb-${idNum}" class="l has-text-white  is-size-5 style-block pointer">Abc</h3>
+ 
+                    <h3 unselectable="on" id="vcv-${idNum}" class="m has-text-grey  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="cxc-${idNum}" style="border-color: transparent;" class="n has-text-white  is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="xzx-${idNum}" style="border-color: transparent;" class="o has-text-white  is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="aqa-${idNum}" class="p has-text-white  is-size-5 style-block pointer">Abc</h3>
+ 
+                    <h3 unselectable="on" id="sws-${idNum}" class="q has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="ded-${idNum}" class="r has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="frf-${idNum}" class="s has-text-white  is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="lol-${idNum}" class="t has-text-white  is-size-5 style-block pointer">Abc</h3>
+ 
+                </div>
+            </div>
+            <div class="block-${idNum}">
+                <div class="styles-container">
+                    <h3 unselectable="on" id="inf-${idNum}" class="has-text-white has-background-info-dark is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="suc-${idNum}" class="has-text-white has-background-success-dark is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="war-${idNum}" class="has-text-white has-background-warning-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="dan-${idNum}" class="has-text-white has-background-danger-dark is-size-5 style-block pointer">Abc</h3>
+
+                    <h3 unselectable="on" id="aaa-${idNum}" class="has-text-white has-background-darker-gray is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="sss-${idNum}" class="has-text-white has-background-grey is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="ddd-${idNum}" class="has-text-azure has-background-grey-light is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" id="fff-${idNum}" class="has-text-black has-background-white is-size-5 style-block pointer">Abc</h3>
+
+                    <h3 unselectable="on" id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
+                </div>
+            </div>
+
+
+
             <div style="display: flex; flex-direction: column; padding: 15px;"
             <hr>
                 <h2 class="is-size-4 ml-4 pt-3 pb-2">Custom</h2>
                 <br>
-                <label for="txt" class="is-size-5 pb-1">Text Color: </label>
-                <input type="color" class="mb-3" id="txt-${idNum}" name="txt">
-                <label for="bg" class="is-size-5 pb-1">Background Color: </label>
-                <input type="color" class="mb-3" id="bg-${idNum}" name="bg">
                 
+                <div style="display: flex; flex-direction: column;"
+                    <div class="flex">
+                    <div class="flex custom-container">
+                        <label for="txt" class="is-size-5 pb-1">Text Color: </label>
+                        <input type="color" class="pointer" id="txt-${idNum}" name="txt">
+                    </div>
+                    <div class="flex custom-container">
+                        <label for="bg" class="is-size-5 pb-1">Background Color: </label>
+                        <input type="color" class="pointer" id="bg-${idNum}" name="bg">
+                    </div>
+                    <div class="flex custom-container" style="margin-top: 0;">
+                        <button id="custom-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply</button>
+                        <button id="aply-to-all-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply to all</button>
+                    </div>
+                </div>
             </div>
-            <button id="custom-${idNum}" class="is-primary pointer" style="margin: 10px 50px;">Apply</button>
+            
 
 
         </div>
@@ -168,21 +316,83 @@ document.getElementById('add').addEventListener('click', function(){
             }
             tasks['current-listItem-background'] = evt.currentTarget.bgColor;
             tasks['current-listItem-color'] = evt.currentTarget.textColor;
+            
+            // Removes custom styles if any
+         
+                document.getElementById(`${evt.currentTarget.idNumber}`).style.removeProperty('background-color');
+                document.getElementById(`${evt.currentTarget.idNumber}`).style.removeProperty('color');
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.removeProperty('background-color');
+                document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.removeProperty('color');
+            
         }
-        applyColors()
-
+        for(let i = 0; i < 10; i++){
+            applyColors();
+        }
         
         // Prevents padding and margins from disappearing (for whatever reason they do)
         document.getElementById(`${evt.currentTarget.idNumber}`).style.padding = '16px';
         document.getElementById(`${evt.currentTarget.idNumber}`).style.borderColor = 'transparent';
         document.getElementById(`styles-${evt.currentTarget.idNumber}`).style.borderColor = 'transparent';
         document.getElementById(`${evt.currentTarget.idNumber}`).style.marginTop = '16px';
+
+        if (evt.shiftKey){
+            
+            for (let listItem of document.getElementsByName('list-item')){
+             
+                    listItem.style.removeProperty('background-color');
+                    listItem.style.removeProperty('color');
+             
+                
+                let elementClassList = String(listItem.classList).split(' ');
+                let currentTextColor = elementClassList[0];
+                let currentBg = elementClassList[1];
+                try {
+                    // Removes trimmed classes
+                    listItem.classList.remove(currentTextColor);
+                    listItem.classList.remove(currentBg);
+    
+                    // Applies new styles
+                    listItem.classList.add(evt.currentTarget.textColor);
+                    listItem.classList.add(evt.currentTarget.bgColor);
+                } catch(err){
+                    // if it doesn't work, just try to add them
+                    listItem.classList.add(evt.currentTarget.textColor);
+                    listItem.classList.add(evt.currentTarget.bgColor);
+                }
+                listItem.style.padding = '16px';
+                listItem.style.borderColor = 'transparent';
+                listItem.style.marginTop = '16px';
+            }
+            for (let listSyleItem of document.getElementsByName('list-style')){
+
+                    listSyleItem.style.removeProperty('background-color');
+                    listSyleItem.style.removeProperty('color');
+                 
+                let elementClassList = String(listSyleItem.classList).split(' ');
+                let currentTextColor = elementClassList[0];
+                let currentBg = elementClassList[1];
+                try {
+                    // Removes trimmed classes
+                    listSyleItem.classList.remove(currentTextColor);
+                    listSyleItem.classList.remove(currentBg);
+    
+                    // Applies new styles
+                    listSyleItem.classList.add(evt.currentTarget.textColor);
+                    listSyleItem.classList.add(evt.currentTarget.bgColor);
+                } catch(err){
+                    // if it doesn't work, just try to add them
+                    listSyleItem.classList.add(evt.currentTarget.textColor);
+                    listSyleItem.classList.add(evt.currentTarget.bgColor);
+                }
+            }
+        }
     }
+    // End of addStyles()
 
     document.getElementById(`${idNum}`).style.borderColor = 'transparent';
     document.getElementById(`styles-${idNum}`).style.borderColor = 'transparent';
 
-    document.getElementById(`custom-${idNum}`).addEventListener('click', function(){
+    function addCustomStyle(){
         // Gets hold of styled classes, trim them, wash them with soap, make'em ready to be updated.
         let elementClassList = String(document.getElementById(`${extractNum(this.id)}`).classList).split(' ');
         let stylesClassList = String(document.getElementById(`${extractNum(this.id)}`).classList).split(' ');
@@ -190,7 +400,7 @@ document.getElementById('add').addEventListener('click', function(){
         let currentBg = elementClassList[1];
         let currentStyleSectionTextColor = stylesClassList[0];
         let currentStyleSectionBg = stylesClassList[1];
-        
+
         // Removes trimmed classes
         try {
             document.getElementById(`${extractNum(this.id)}`).classList.remove(currentTextColor);
@@ -210,127 +420,107 @@ document.getElementById('add').addEventListener('click', function(){
         document.getElementById(`${extractNum(this.id)}`).style.border = 'none';
         document.getElementById(`styles-${extractNum(this.id)}`).style.border = 'none';
         document.getElementById(`${extractNum(this.id)}`).style.marginTop = '16px';
-    });
-    // Style 1
-    document.getElementById(`red-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`red-${idNum}`).idNumber = idNum;
-    document.getElementById(`red-${idNum}`).textColor = 'has-text-danger';
-    document.getElementById(`red-${idNum}`).bgColor = 'has-background-danger-light';
+    }
+    function addToAll(){
+        for (let listItem of document.getElementsByName('list-item')){
+            let elementClassList = String(listItem.classList).split(' ');
+            let currentTextColor = elementClassList[0];
+            let currentBg = elementClassList[1];
+            try {
+                // Removes trimmed classes
+                listItem.classList.remove(currentTextColor);
+                listItem.classList.remove(currentBg);
 
-    // Style 2
-    document.getElementById(`yel-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`yel-${idNum}`).idNumber = idNum;
-    document.getElementById(`yel-${idNum}`).textColor = 'has-text-warning-dark';
-    document.getElementById(`yel-${idNum}`).bgColor = 'has-background-warning-light';
+            } catch(err){
+            }
+            listItem.style.backgroundColor = document.getElementById(`bg-${extractNum(this.id)}`).value;
+            listItem.style.color = document.getElementById(`txt-${extractNum(this.id)}`).value;
 
-    // Style 3
-    document.getElementById(`gre-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`gre-${idNum}`).idNumber = idNum;
-    document.getElementById(`gre-${idNum}`).textColor = 'has-text-success';
-    document.getElementById(`gre-${idNum}`).bgColor = 'has-background-success-light';
+            listItem.style.padding = '16px';
+            listItem.style.border = 'none';
+            listItem.style.border = 'none';
+            listItem.style.marginTop = '16px';
 
-    // Style 4
-    document.getElementById(`blu-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`blu-${idNum}`).idNumber = idNum;
-    document.getElementById(`blu-${idNum}`).textColor = 'has-text-info';
-    document.getElementById(`blu-${idNum}`).bgColor = 'has-background-info-light';
+        }
+        for (let listSyleItem of document.getElementsByName('list-style')){
+            let elementClassList = String(listSyleItem.classList).split(' ');
+            let currentTextColor = elementClassList[0];
+            let currentBg = elementClassList[1];
+            try {
+                // Removes trimmed classes
+                listSyleItem.classList.remove(currentTextColor);
+                listSyleItem.classList.remove(currentBg);
 
-    // Style 5
-    document.getElementById(`dar-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`dar-${idNum}`).idNumber = idNum;
-    document.getElementById(`dar-${idNum}`).textColor = 'has-text-link';
-    document.getElementById(`dar-${idNum}`).bgColor = 'has-background-link-light';
+            } catch(err){
+            }
+            listSyleItem.style.backgroundColor = document.getElementById(`bg-${extractNum(this.id)}`).value;
+            listSyleItem.style.color = document.getElementById(`txt-${extractNum(this.id)}`).value;
 
-    // Style 6
-    document.getElementById(`pri-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`pri-${idNum}`).idNumber = idNum;
-    document.getElementById(`pri-${idNum}`).textColor = 'has-text-primary';
-    document.getElementById(`pri-${idNum}`).bgColor = 'has-background-primary-light';
+            listSyleItem.style.padding = '8px';
+            listSyleItem.style.border = 'none';
+            listSyleItem.style.border = 'none';
 
-    // Style 7
-    document.getElementById(`pid-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`pid-${idNum}`).idNumber = idNum;
-    document.getElementById(`pid-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`pid-${idNum}`).bgColor = 'has-background-primary-dark';
-
-    // Style 8
-    document.getElementById(`noy-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`noy-${idNum}`).idNumber = idNum;
-    document.getElementById(`noy-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`noy-${idNum}`).bgColor = 'has-background-link-dark';
-
-    // Style 9
-    document.getElementById(`inf-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`inf-${idNum}`).idNumber = idNum;
-    document.getElementById(`inf-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`inf-${idNum}`).bgColor = 'has-background-info-dark';
-
-    // Style 10
-    document.getElementById(`suc-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`suc-${idNum}`).idNumber = idNum;
-    document.getElementById(`suc-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`suc-${idNum}`).bgColor = 'has-background-success-dark';
-
-    // Style 11
-    document.getElementById(`war-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`war-${idNum}`).idNumber = idNum;
-    document.getElementById(`war-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`war-${idNum}`).bgColor = 'has-background-warning-dark';
-
-    // Style 12
-    document.getElementById(`dan-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`dan-${idNum}`).idNumber = idNum;
-    document.getElementById(`dan-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`dan-${idNum}`).bgColor = 'has-background-danger-dark';
-
-    // Style 13
-    document.getElementById(`zzz-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`zzz-${idNum}`).idNumber = idNum;
-    document.getElementById(`zzz-${idNum}`).textColor = 'has-text-purple';
-    document.getElementById(`zzz-${idNum}`).bgColor = 'has-background-purple-light';
-
-    // Style 14
-    document.getElementById(`xxx-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`xxx-${idNum}`).idNumber = idNum;
-    document.getElementById(`xxx-${idNum}`).textColor = 'has-text-orange';
-    document.getElementById(`xxx-${idNum}`).bgColor = 'has-background-orange';
-
-    // Style 15
-    document.getElementById(`ccc-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`ccc-${idNum}`).idNumber = idNum;
-    document.getElementById(`ccc-${idNum}`).textColor = 'has-text-irish-green';
-    document.getElementById(`ccc-${idNum}`).bgColor = 'has-background-irish';
-
-    // Style 16
-    document.getElementById(`vvv-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`vvv-${idNum}`).idNumber = idNum;
-    document.getElementById(`vvv-${idNum}`).textColor = 'has-text-pink';
-    document.getElementById(`vvv-${idNum}`).bgColor = 'has-background-pink';
-
-    // Style 17
-    document.getElementById(`aaa-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`aaa-${idNum}`).idNumber = idNum;
-    document.getElementById(`aaa-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`aaa-${idNum}`).bgColor = 'has-background-darker-gray';
-
-    // Style 18
-    document.getElementById(`sss-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`sss-${idNum}`).idNumber = idNum;
-    document.getElementById(`sss-${idNum}`).textColor = 'has-text-white';
-    document.getElementById(`sss-${idNum}`).bgColor = 'has-background-grey';
-
-    // Style 19
-    document.getElementById(`ddd-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`ddd-${idNum}`).idNumber = idNum;
-    document.getElementById(`ddd-${idNum}`).textColor = 'has-text-azure';
-    document.getElementById(`ddd-${idNum}`).bgColor = 'has-background-grey-light';
-
-    // Style 20
-    document.getElementById(`fff-${idNum}`).addEventListener('click', addStyles);
-    document.getElementById(`fff-${idNum}`).idNumber = idNum;
-    document.getElementById(`fff-${idNum}`).textColor = 'has-text-black';
-    document.getElementById(`fff-${idNum}`).bgColor = 'has-background-white';
+        }
+    }
     
+    // !!!!!!! USE THESE TO WINDOW.ONLOAD !!!!!!!!!!!
+    document.getElementById(`custom-${idNum}`).addEventListener('click', addCustomStyle);
+    document.getElementById(`aply-to-all-${idNum}`).addEventListener('click', addToAll)
+    
+    function helperAdd(name, color, background){
+        document.getElementById(`${name}-${idNum}`).addEventListener('click', addStyles);
+        document.getElementById(`${name}-${idNum}`).idNumber = idNum;
+        document.getElementById(`${name}-${idNum}`).textColor = color;
+        document.getElementById(`${name}-${idNum}`).bgColor = background;
+    }
+    // !!!!!!! USE THESE TO WINDOW.ONLOAD !!!!!!!!!!!
+
+    // Styles
+    helperAdd('red', 'has-text-danger', 'has-background-danger-light');
+    helperAdd('yel', 'has-text-warning-dark', 'has-background-warning-light');
+    helperAdd('gre', 'has-text-success', 'has-background-success-light');
+    helperAdd('red', 'has-text-danger', 'has-background-danger-light');
+    helperAdd('blu', 'has-text-info', 'has-background-info-light');
+    helperAdd('dar', 'has-text-link', 'has-background-link-light');
+    helperAdd('pri', 'has-text-primary', 'has-background-primary-light');
+    helperAdd('pid', 'has-text-white', 'has-background-primary-dark');
+    helperAdd('noy', 'has-text-white', 'has-background-link-dark');
+    helperAdd('inf', 'has-text-white', 'has-background-info-dark');
+    helperAdd('suc', 'has-text-white', 'has-background-success-dark');
+    helperAdd('war', 'has-text-white', 'has-background-warning-dark');
+    helperAdd('dan', 'has-text-white', 'has-background-danger-dark');
+    helperAdd('zzz', 'has-text-purple', 'has-background-purple-light');
+    helperAdd('xxx', 'has-text-orange', 'has-background-orange');
+    helperAdd('ccc', 'has-text-irish-green', 'has-background-irish');
+    helperAdd('vvv', 'has-text-pink', 'has-background-pink');
+    helperAdd('aaa', 'has-text-white', 'has-background-darker-gray');
+    helperAdd('sss', 'has-text-white', 'has-background-grey');
+    helperAdd('ddd', 'has-text-azure', 'has-background-grey-light');
+    helperAdd('fff', 'has-text-black', 'has-background-white');
+    helperAdd('q1q', 'has-text-rouge', 'has-background-rouge');
+    helperAdd('w2w', 'has-text-bluey', 'has-background-bluey');
+    helperAdd('pur', 'has-text-white', 'has-background-purple');
+    helperAdd('pot', 'has-text-white', 'has-background-green');
+    helperAdd('trt', 'has-text-white', 'a');
+    helperAdd('rer', 'has-text-white', 'b');
+    helperAdd('ewe', 'has-text-white', 'c');
+    helperAdd('wqw', 'has-text-white', 'd');
+    helperAdd('hgh', 'has-text-white', 'e');
+    helperAdd('gfg', 'has-text-white', 'f');
+    helperAdd('fdf', 'has-text-white', 'g');
+    helperAdd('dsd', 'has-text-white', 'h');
+    helperAdd('sas', 'has-text-white', 'i');
+    helperAdd('mnm', 'has-text-white', 'j');
+    helperAdd('nbn', 'has-text-white', 'k');
+    helperAdd('bvb', 'has-text-white', 'l');
+    helperAdd('vcv', 'has-text-white', 'm');
+    helperAdd('cxc', 'has-text-white', 'n');
+    helperAdd('xzx', 'has-text-white', 'o');
+    helperAdd('aqa', 'has-text-white', 'p');
+    helperAdd('sws', 'has-text-white', 'q');
+    helperAdd('ded', 'has-text-white', 'r');
+    helperAdd('frf', 'has-text-white', 's');
+    helperAdd('lol', 'has-text-white', 't');
 
     // Get the input field
     var input = document.getElementById(`input-${idNum}`);
@@ -340,6 +530,7 @@ document.getElementById('add').addEventListener('click', function(){
     btn.addEventListener('click', function(){
         // Trigger the button element with a click
         const inputVal = document.getElementById(`input-${extractNum(this.id)}`).value;
+        tasks[`task-${extractNum(this.id)}`]["current-value"] = inputVal;
         document.getElementById(`to-do-${extractNum(this.id)}`).innerHTML = String(inputVal);
 
         document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'block';
@@ -359,13 +550,14 @@ document.getElementById('add').addEventListener('click', function(){
 
     
     // Delete functionality
-    document.getElementById(`bin-${idNum}`).addEventListener('click', function(){
+    function Delete(){
         document.getElementById(`${extractNum(this.id)}`).remove();
         document.getElementById(`styles-${extractNum(this.id)}`).remove();
-    });
+    }
+    document.getElementById(`bin-${idNum}`).addEventListener('click', Delete);
     
     // Edit functionality
-    document.getElementById(`edit-${idNum}`).addEventListener('click', function(){
+    function edit(){
         document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'none';
         document.getElementById(`input-${extractNum(this.id)}`).style.display = 'block';
         document.getElementById(`set-${extractNum(this.id)}`).style.display = 'block';
@@ -378,10 +570,11 @@ document.getElementById('add').addEventListener('click', function(){
 
         tasks[`task-${extractNum(this.id)}`]["expanded"] = false;
         tasks[`task-${extractNum(this.id)}`]["styles-open"] = false;
-    });
+    }
+    document.getElementById(`edit-${idNum}`).addEventListener('click', edit);
 
     // Open styles
-    document.getElementById(`style-${idNum}`).addEventListener('click', function(){
+    function openStyles(){
         if (tasks[`task-${extractNum(this.id)}`]['styles-open'] === false){
             document.getElementById(`styles-${extractNum(this.id)}`).style.display = 'block';
 
@@ -391,10 +584,11 @@ document.getElementById('add').addEventListener('click', function(){
 
             tasks[`task-${extractNum(this.id)}`]['styles-open'] = false;
         }
-    });
+    }
+    document.getElementById(`style-${idNum}`).addEventListener('click', openStyles);
 
     // Show More functionality
-    document.getElementById(`more-${idNum}`).addEventListener('click', function(){
+    function showMore(){
         if (tasks[`task-${extractNum(this.id)}`]["expanded"] === false){
             document.getElementById(`edit-${extractNum(this.id)}`).style.display = 'block';
             document.getElementById(`style-${extractNum(this.id)}`).style.display = 'block';
@@ -415,7 +609,8 @@ document.getElementById('add').addEventListener('click', function(){
             tasks[`task-${extractNum(this.id)}`]["styles-open"] = false;
             tasks[`task-${extractNum(this.id)}`]["expanded"] = false;
         }
-    })
+    }
+    document.getElementById(`more-${idNum}`).addEventListener('click', showMore);
 
     // Adds item to the list when the user releases a key on the keyboard
     input.addEventListener("keyup", function(event) {
@@ -425,6 +620,7 @@ document.getElementById('add').addEventListener('click', function(){
             event.preventDefault();
 
             const inputVal = document.getElementById(`input-${extractNum(this.id)}`).value;
+            tasks[`task-${extractNum(this.id)}`]["current-value"] = inputVal;
             document.getElementById(`to-do-${extractNum(this.id)}`).innerHTML = String(inputVal);
 
             document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'block';
@@ -455,6 +651,7 @@ document.getElementById('add').addEventListener('click', function(){
 
     idNum++;
 });
+// End of add function
 
 // clear all items functionality
 document.getElementById('clear').addEventListener('click', function(){
@@ -479,7 +676,7 @@ document.getElementById('clear').addEventListener('click', function(){
 });
 
 // darkmode feature
-document.getElementById('darkmode').addEventListener('click', function(){
+function turnDark(){
     if (tasks["darkmodeToggled"] === false){
         document.getElementById('htm').style.backgroundColor = 'rgb(26, 26, 26)';
         document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(13 13 13)';
@@ -487,9 +684,21 @@ document.getElementById('darkmode').addEventListener('click', function(){
             listItem.style.backgroundColor = 'rgb(42 45 48 / 90%)';
         }
         document.getElementsByTagName('body')[0].style.color = '#e2e2e2';
-        document.getElementsByClassName('title')[0].style.color = '#e2e2e2';
         document.getElementsByClassName('container')[0].style.backgroundColor = 'rgb(246 242 255 / 1%)';
+        
+        if (!tasks['has-theme']){
+            document.getElementById('add').style.color = 'white';
+            document.getElementById('clear').style.color = 'white';
+            document.getElementsByClassName('title')[0].style.color = '#e2e2e2';
+        }
+
         tasks["darkmodeToggled"] = true;
+        
+        tasks['currentAddColor'] = 'white';
+        tasks['currentClearColor'] = 'white';
+        tasks['currentListTitleColor'] = 'white';
+        tasks['current-background'] = 'none';
+        tasks['current-blurr'] = 'none';
     } else {
         document.getElementById('htm').style.backgroundColor = '#fff';
         document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(242 242 242)';
@@ -497,17 +706,28 @@ document.getElementById('darkmode').addEventListener('click', function(){
         for (let listItem of document.getElementsByClassName('nav-item')){
             listItem.style.backgroundColor = 'rgb(210 220 235 / 90%)';
         }
-        
+
         document.getElementsByTagName('body')[0].style.color = '#4a4a4a';
-        document.getElementsByClassName('title')[0].style.color = '#4a4a4a';
         document.getElementsByClassName('container')[0].style.backgroundColor = 'rgb(246 242 255 / 34%)';
 
-        document.getElementById('add').style.color = 'black';
-        document.getElementById('clear').style.color = 'black';
+        if (!tasks['has-theme']){
+            document.getElementById('add').style.color = 'black';
+            document.getElementById('clear').style.color = 'black';
+            document.getElementsByClassName('title')[0].style.color = '#4a4a4a';
+        }
+
         tasks["darkmodeToggled"] = false;
+
+        tasks['currentAddColor'] = 'black';
+        tasks['currentClearColor'] = 'black';
+        tasks['currentListTitleColor'] = 'black';
+        tasks['current-background'] = 'none';
+        tasks['current-blurr'] = 'none';
     }
     
-});
+}
+
+document.getElementById('darkmode').addEventListener('click', turnDark);
 
 // Navbar expand feature
 document.getElementById('settings').addEventListener('click', function(){
@@ -528,103 +748,37 @@ document.getElementById('settings').addEventListener('click', function(){
             document.getElementsByClassName('navbar')[0].style.width = '25rem';
         }
 
+
         tasks["navbarToggled"] = true;
     } else {
+        let rotateButtonsList = document.getElementsByClassName('rotate');
+
         document.getElementsByClassName('features-container')[0].style.display = 'none';
         document.getElementsByClassName('navbar')[0].style.width = '3.6rem';
         document.getElementsByClassName('container')[0].style.display ='block';
         document.getElementById('footer').style.display ='block';
-        for(let click of document.getElementsByClassName('rotate')){
-            click.click();
-        }
+
         tasks["navbarToggled"] = false;
     }
 });
 
 // show more list name func
-document.getElementsByClassName('rotate')[0].addEventListener('click', function(){
+function toggle0(){
+    
     if (tasks["listNameToggled"] === false){
         document.getElementById('list-name').style.display = 'block';
-        document.getElementById('arr-1').style.transform = 'rotate(-180deg)';
+        document.getElementById('arr-1').style.transform = 'rotate(0deg)';
         tasks["listNameToggled"] = true;
     } else {
         document.getElementById('list-name').style.display = 'none';
-        document.getElementById('arr-1').style.transform = 'rotate(0deg)';
+        document.getElementById('arr-1').style.transform = 'rotate(-180deg)';
         tasks["listNameToggled"] = false;
     }
-});
-
-// Add canadian theme
-document.getElementById('canada').addEventListener('click', function(){
-
-    document.getElementById(`htm`).classList.remove(tasks['current-background']);
-    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
-
-    document.getElementById('add').style.color = 'black';
-    document.getElementById('clear').style.color = 'black';
-
-    // adds a class to html that contains the image
-    document.getElementById('htm').classList.add('has-background-canada');
-    document.getElementById('list-bg').classList.add('has-blurred-background');
-    tasks['current-background'] = 'has-background-canada';
-    tasks['current-blurr'] = 'has-blurred-background';
-});
-
-// Add moon theme
-document.getElementById('moon').addEventListener('click', function(){
-
-    // adds a class to html that contains the image
-    document.getElementById(`htm`).classList.remove(tasks['current-background']);
-    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
-
-    document.getElementById('add').style.color = 'white';
-    document.getElementById('clear').style.color = 'white';
-
-    document.getElementById('htm').classList.add('has-background-moon');
-    document.getElementById('list-bg').classList.add('has-blurred-background');
-
-    tasks['current-background'] = 'has-background-moon';
-    tasks['current-blurr'] = 'has-blurred-background';
-});
-
-// Add mountains theme
-document.getElementById('mountain').addEventListener('click', function(){
-
-    // adds a class to html that contains the image
-    document.getElementById(`htm`).classList.remove(tasks['current-background']);
-    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
-
-    document.getElementById('add').style.color = 'white';
-    document.getElementById('clear').style.color = 'white';
-    document.getElementById('list-title').style.color = 'black';
-
-    document.getElementById('htm').classList.add('has-background-mountain');
-    document.getElementById('list-bg').classList.add('has-blurred-background');
-
-    tasks['current-background'] = 'has-background-mountain';
-    tasks['current-blurr'] = 'has-blurred-background';
-});
-
-// Add beach theme
-document.getElementById('beach').addEventListener('click', function(){
-
-    // adds a class to html that contains the image
-    document.getElementById(`htm`).classList.remove(tasks['current-background']);
-    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
-
-    document.getElementById('add').style.color = 'white';
-    document.getElementById('clear').style.color = 'white';
-    document.getElementById('list-title').style.color = 'white';
-
-    document.getElementById('htm').classList.add('has-background-beach');
-    document.getElementById('list-bg').classList.add('has-blurred-background');
-
-    tasks['current-background'] = 'has-background-beach';
-    tasks['current-blurr'] = 'has-blurred-background';
-});
-
+    
+}
 // show more list theme func
-document.getElementsByClassName('rotate')[1].addEventListener('click', function(){
+function toggle1(){
+    
     if (tasks["listThemeToggled"] === false){
         document.getElementById('no-theme').style.display = 'block';
         document.getElementById('canada-theme').style.display = 'block';
@@ -632,7 +786,7 @@ document.getElementsByClassName('rotate')[1].addEventListener('click', function(
         document.getElementById('mountain-theme').style.display = 'block';
         document.getElementById('beach-theme').style.display = 'block';
 
-        document.getElementById('arr-2').style.transform = 'rotate(-180deg)';
+        document.getElementById('arr-2').style.transform = 'rotate(0deg)';
         tasks["listThemeToggled"] = true;
     } else {
         document.getElementById('no-theme').style.display = 'none';
@@ -641,19 +795,69 @@ document.getElementsByClassName('rotate')[1].addEventListener('click', function(
         document.getElementById('mountain-theme').style.display = 'none';
         document.getElementById('beach-theme').style.display = 'none';
 
-        document.getElementById('arr-2').style.transform = 'rotate(0deg)';
+        document.getElementById('arr-2').style.transform = 'rotate(-180deg)';
 
         tasks["listThemeToggled"] = false;
     }
-});
+}
+document.getElementsByClassName('rotate')[1].addEventListener('click', toggle1);
+document.getElementsByClassName('rotate')[0].addEventListener('click', toggle0);
+
+// Add-theme function
+function addTheme(e){
+    // adds a class to html that contains the image
+    document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
+
+    document.getElementById('add').style.color = e.target.addColor;
+    document.getElementById('clear').style.color = e.target.clearColor;
+    document.getElementById('list-title').style.color = e.target.listTitleColor;
+
+    document.getElementById('htm').classList.add(e.target.newBg);
+    document.getElementById('list-bg').classList.add(e.target.newBlurr);
+
+    tasks['current-background'] = e.target.newBg;
+    tasks['current-blurr'] = e.target.newBlurr;
+
+    tasks['currentAddColor'] = e.target.addColor;
+    tasks['currentClearColor'] = e.target.clearColor;
+    tasks['currentListTitleColor'] = e.target.listTitleColor;
+
+    tasks['has-theme'] = true;
+}
+
+// Function to help set background
+function addThemeHelper(theme, colorAdd, colorClear, colorTitle, background, blurr){
+    document.getElementById(theme).addEventListener('click', addTheme);
+    document.getElementById(theme).addColor = colorAdd;
+    document.getElementById(theme).clearColor = colorClear;
+    document.getElementById(theme).listTitleColor = colorTitle;
+    document.getElementById(theme).newBg = background;
+    document.getElementById(theme).newBlurr = blurr;
+}
+// Beach theme
+addThemeHelper('beach', 'black', 'black', 'black', 'has-background-beach', 'has-blurred-background');
+// Canada theme
+addThemeHelper('canada', 'black', 'black', 'black', 'has-background-canada', 'has-blurred-background');
+// Moon theme
+addThemeHelper('moon', 'white', 'white', 'white', 'has-background-moon', 'has-blurred-background');
+// Mountains theme
+addThemeHelper('mountain', 'white', 'white', 'black', 'has-background-mountain', 'has-blurred-background');
 
 document.getElementById('default').addEventListener('click', function(){
     document.getElementById(`htm`).classList.remove(tasks['current-background']);
     document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
-
-    document.getElementById('add').style.color = 'black';
-    document.getElementById('clear').style.color = 'black';
-    document.getElementById('list-title').style.color = 'black';
+    
+    if (tasks['darkmodeToggled']){
+        document.getElementById('add').style.color = 'white';
+        document.getElementById('clear').style.color = 'white';
+        document.getElementById('list-title').style.color = 'white';
+    } else {
+        document.getElementById('add').style.color = 'black';
+        document.getElementById('clear').style.color = 'black';
+        document.getElementById('list-title').style.color = 'black';
+    }
+    tasks['has-theme'] = false;
 });
 
 // changes list title
@@ -661,3 +865,10 @@ document.getElementById('update-title').addEventListener('click', function(){
     let newTitle = document.getElementById('change-name').value;
     document.getElementById('list-title').innerHTML = newTitle;
 });
+
+// Saves progress
+window.onbeforeunload = function(){
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('idNumber', idNum);
+    localStorage.setItem('list', document.getElementById('main-content').outerHTML);
+};
