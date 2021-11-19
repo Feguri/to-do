@@ -16,6 +16,12 @@
         max-width: 60%;
         font-size: 19px !important;
     }
+    #tip {
+        display: none;
+    }
+    .custom-container {
+        width: 80%;
+    }
 }
 
 @media only screen and (max-width: 500px ) {
@@ -23,6 +29,10 @@
         width: 95%;
         padding-left: 0;
         padding-right: 0;
+    }
+
+    .custom-container {
+        width: 95%;
     }
     .checkbox p {
         max-width: 75%;

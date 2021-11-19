@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html id="h">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To-do</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="media.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <script src="scripts/main.js" defer></script>
+    <script src="https://kit.fontawesome.com/5b22b2a95f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/jpg" href="Icons/favicon.ico"/>
+    <link rel="stylesheet" href="test.css">
+  </head>
+  <body>
+
+  <nav class="navbar">
+    <i class="fas fa-bars pointer" id="settings"></i>
+    <div class="features-container">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <div class="darkmode">
+            <i class="fas fa-moon moon"></i>
+            <h2 class="is-size-5 link-text">Dark mode</h2>
+            <input id="darkmode" type="checkbox" class="toggle-switch pointer moon ml-3">
+          </div>
+  
+        </li>
+
+        <li class="nav-item">
+          <div class="flex mb-5">
+            <h2 class="is-size-5 link-text">Change list title</h2>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-1"></i>
+          </div>
+          
+          <div id="list-name">
+            <label for="change-name">New list title:</label>
+            <input id="change-name" name="change-name" class="input is-info mb-5 mt-2" type="text" placeholder="Ex. Groceries">
+            <button class="button is-primary" id="update-title">Update</button>
+          </div>
+
+        </li>
+
+        <li class="nav-item"  style="opacity: 70%;">
+          <span class="new">COMING SOON</span>
+          <div class="flex">
+            <h2 class="is-size-5 link-text">Theme</h2>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate"></i>
+          </div>
+          <div class="themes-container">
+            
+          </div>
+
+          <div id="theme-1" class="column">
+
+          </div>
+        </li>
+
+        <li class="nav-item" style="opacity: 70%;">
+          <span class="new">COMING SOON</span>
+          <div class="flex">
+            <h2 class="is-size-5 link-text">Custom Theme</h2>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate"></i>
+          </div>
+        </li>
+
+
+        <li class="nav-item">
+          <div class="flex" style="flex-direction: column; align-items: flex-start; padding: 0 20px; opacity: 95%;">
+            <h2 class="is-size-5 link-text">Developer News</h2>
+            
+              <span class="new mt-5">Nov 13 2021</span>
+              <p>New subreddit: <a href="https://www.reddit.com/r/colorlist/" target="_blank">r/colorlist</a>.
+                You can share the way you style your list there, make suggestions, and report <b>bugs</b>!</p>
+                <p>We'll get a new update and domain by Monday. I also fixed the bug where you could accidentally delete everything.</p>
+              <p>Version: 0.9.2</p>
+
+              <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
+                <span class="new mt-5">Nov 12 2021</span>
+                <p>You can now change your list title. Version: 0.9.1</p>
+              </div>
+
+              <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
+                <span class="new mt-5">Nov 11 2021</span>
+                <p>Fixed bug where you can't change to a default style after setting a custom style. Version: 0.9.0</p>
+              </div >
+
+
+          </div>
+        </li>
+        <li id="about-me">
+          <p class="mt-3">Hi 👋. I'm Felipe, a Web Developer. If you want to see more of my stuff visit my website at
+            <a href="https://feguri.github.io/Personal-Website/" target="_blank">https://feguri.github.io/Personal-Website/</a></p>
+        </li>
+  
+      </ul>
+    </div>
+
+  </nav>
+
+  <section class="section">
+    <div class="container"  id="i">
+        <div class="topper">
+            <h1 class="title" id="list-title">
+                To-do:
+              </h1>
+              <p class="is-size-4 pl-4 mb-1 has-text-info-dark pointer mb-2" id="add">Add</p>
+        </div>
+
+      
+    <div id="main-content">
+        
+    </div>
+    <div class="clear">
+      <div class="popup has-text-danger has-background-danger-light">
+        <h2 class="is-size-5">Are you sure you want to delete all items?</h3>
+          <div class="button-container">
+            <button id="no" class="button is-danger is-light" style="border: 1px solid red; margin-right: 20px;">No</button>
+            <button id="yes" class="button is-danger">Yes</button>
+          </div>
+      </div>
+      <p class="is-size-5 pl-4 has-text-info-dark pointer mt-5" id="clear">Clear</p>
+    </div>
+
+
+    <div id="debugger">
+      <p id="debugger-text" class="mt-4"></p>
+    </div>
+
+  </section>
+  <div id="footer" style="margin-left: 80px;">
+    Icons made by <a href="https://www.freepik.com" title="Freepik" target="_blank">Freepik</a>
+     from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com. </a>
+      Styled with <a href="https://bulma.io/" target="_blank">Bulma</a>
+  </div>
+  </body>
+</html>

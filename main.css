@@ -34,6 +34,17 @@ html {
     background-size: cover;
 }
 
+.iconic {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    background-color: #ffffff4d;
+    padding: 4px;
+    border-radius: 11px;
+    transition: 0.3s;
+}
 
 
 .hr {
@@ -73,6 +84,9 @@ h3:hover {
     align-items: center;
 
     text-decoration: none;
+}
+.checkbox:hover {
+   color: inherit;
 }
 
 .checkbox p {
@@ -153,6 +167,14 @@ h3:hover {
     border: 1px solid hsl(48, 100%, 67%);
 } */
 
+
+
+.custom-container {
+    background-color: #c3bfe94a;
+    width: 60%;
+    padding: 14px;
+}
+
 .rotate-180 {
     transform: rotate(180deg);
 }
@@ -163,9 +185,9 @@ h3:hover {
 
     opacity: 100%;
 }
-.icon:hover {
-    height: 26px;
-    width: 26px;
+.iconic:hover {
+    height: 2.2rem;
+    width: 2.2rem;
 
     opacity: 100%;
 }
@@ -195,6 +217,10 @@ h3:hover {
     display: none;
 }
 
+.text:hover {
+    opacity: 80%;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
@@ -217,60 +243,154 @@ h3:hover {
     justify-content: flex-end;
 }
 
+.has-background-purple {
+    background-color: #4a0094!important;
+}
+.has-background-green {
+    background-color: #4caf50!important;
+}
+
+.container-2 {
+    margin: 10px;
+    background-color: rgb(210 220 235 / 90%);
+    border-radius: 6px;
+    padding: 10px;
+    transition: height 0.09s ease-in-out;
+}
+
+
 .has-background-grey {
-    background-color: gray;
+    background-color: gray!important;
     border-color: gray;
 }
 
 .has-background-darker-gray {
-    background-color: rgb(78, 78, 78);
+    background-color: rgb(78, 78, 78)!important;
     border-color: rgb(78, 78, 78);
 }
 
 .has-text-purple {
-    color: #8e61f3;
+    color: #8e61f3!important;
 }
 .has-text-orange {
-    color: #dd8c00;
+    color: #dd8c00!important;
 }
 .has-text-pink {
     color: #cc60d0!important;
 }
 .has-background-orange {
     border: 1px solid hsl(33deg 86% 57%);
-    background-color: #ffece1;
+    background-color: #ffece1!important;
 }
 .has-background-pink {
     border: 1px solid hsl(294deg 71% 72%);
     background-color: #fbd6ff!important;
 }
 .has-text-irish-green {
-    color: #1ba805;
+    color: #1ba805!important;
 }
 .has-background-irish {
-    background-color: #d6f2d1;
+    background-color: #d6f2d1!important;
     border: 1px solid hsl(102deg 81% 44%);
 }
 
 .has-background-purple-light {
-    background-color: #eeddfd;
+    background-color: #eeddfd!important;
     border-color: hsl(269deg 100% 58%);
 }
+
+.has-background-rouge {
+    background-color: #ffe4f7!important;
+    border-color: hsl(309deg 100% 75%);
+}
+.has-text-rouge {
+    color: #c8047f!important;
+}
 .has-text-azure {
-    color: azure
+    color: azure!important;
+}
+
+.has-background-bluey {
+    background-color: #e5e6ff!important;
+    border-color: hsl(228deg 100% 74%);
+}
+
+.has-text-bluey {
+    color: #7864ff!important;
 }
 
 .has-text-black {
-    color: black;
+    color: black!important;
 }
 .has-background-white {
-    background-color: white;
+    background-color: white!important;
     border-color: gray;
 }
 
 .has-background-grey-light {
-    background-color: rgb(192, 192, 192);
+    background-color: rgb(192, 192, 192)!important;
     border-color: rgb(192, 192, 192);
+}
+
+.a {
+    background-color: #f44336;
+}
+.b {
+    background-color: #e91e63;
+}
+.c {
+    background-color: #9c27b0;
+}
+.d {
+    background-color: #673ab7;
+}
+.e {
+    background-color: #3f51b5;
+}
+.f {
+    background-color: #2196f3;
+}
+.g {
+    background-color: #03a9f4;
+}
+.h {
+    background-color: #00bcd4;
+}
+.i {
+    background-color: #009688;
+}
+.j {
+    background-color: #4caf50;
+}
+.k {
+    background-color: #8bc34a;
+}
+.l {
+    background-color: #cddc39;
+}
+.m {
+    background-color: #ffeb3b;
+}
+.n {
+    background-color: #ffc107;
+}
+.o {
+    background-color: #ff9800;
+}
+.p {
+    background-color: #ff5722;
+}
+.q {
+    background-color: #795548;
+}
+.r {
+    background-color: #9e9e9e;
+}
+.s {
+    background-color: #607d8b;
+}
+.t {
+    background-color: #002ff063;
 }
 
 .theme {

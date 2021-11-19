@@ -1,0 +1,12 @@
+.has-background-canada {
+    background: url(Icons/pexels-eberhard-grossgasteiger-443446.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#i {
+    background-color: rgba(0, 0, 0, 0.61);
+    backdrop-filter: blur(5px);
+}
