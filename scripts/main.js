@@ -7,6 +7,7 @@ tasks["navbarToggled"] = false;
 tasks["listNameToggled"] = false;
 tasks["listThemeToggled"] = false;
 tasks["background-blurred"] = false;
+tasks["natureThemeToggled"] = false;
 tasks["current-background"] = null;
 tasks['current-blurr'] = null;
 tasks['current-listItem-background'] = 'has-background-link-light';
@@ -15,6 +16,7 @@ tasks['currentAddColor'] = 'black';
 tasks['currentClearColor'] = 'black';
 tasks['currentListTitleColor'] = 'black';
 tasks['has-theme'] = false;
+tasks['colorlight'] = false;
 
 function extractNum(str) {
     let nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -37,15 +39,12 @@ function print(...args){
 
 window.onload =  function(){
     let savedTasks = JSON.parse(localStorage.getItem('tasks'));
-    if (JSON.parse(localStorage.getItem('idNumber')) !== null){
-        idNum = JSON.parse(localStorage.getItem('idNumber'));
-    }
     
     if (savedTasks['darkmodeToggled']){
         document.getElementById('darkmode').click();
         // turnDark();
     }
-    tasks = savedTasks;
+    // tasks = savedTasks;
 
     // sets the previous theme
     document.getElementById('add').style.color = savedTasks['currentAddColor'];
@@ -62,41 +61,7 @@ window.onload =  function(){
     tasks['currentClearColor']= savedTasks['currentClearColor'];
     tasks['currentListTitleColor'] = savedTasks['currentListTitleColor'];
 
-
-    let toString = JSON.stringify(JSON.parse(localStorage.getItem('list')).children) ;
-    document.getElementById('main-content').innerHTML = toString;
-    // loadPrevious();
-
 }
-
-function loadPrevious(){
-    for (let previousListItems of document.getElementById('main-content').children){
-        print(previousListItems.id, 'hi');
-        // document.getElementById(`more-${extractNum(previousListItems.id)}`).addEventListener('click', function(){
-        //     if (tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] === false){
-        //         document.getElementById(`edit-${extractNum(previousListItems.id)}`).style.display = 'block';
-        //         document.getElementById(`style-${extractNum(previousListItems.id)}`).style.display = 'block';
-        //         document.getElementById(`bin-${extractNum(previousListItems.id)}`).style.display = 'block';
-        //         // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'block';
-        //         // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'block';
-    
-    
-        //         tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] = true;
-        //     } else {
-        //         document.getElementById(`edit-${extractNum(previousListItems.id)}`).style.display = 'none';
-        //         document.getElementById(`style-${extractNum(previousListItems.id)}`).style.display = 'none';
-        //         document.getElementById(`bin-${extractNum(previousListItems.id)}`).style.display = 'none';
-        //         document.getElementById(`styles-${extractNum(previousListItems.id)}`).style.display = 'none';
-        //         // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'none';
-        //         // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'none';
-     
-        //         tasks[`task-${extractNum(previousListItems.id)}`]["styles-open"] = false;
-        //         tasks[`task-${extractNum(previousListItems.id)}`]["expanded"] = false;
-        //     }
-        // });
-    }
-}
-
 
 
 document.getElementById('add').addEventListener('click', function(){
@@ -111,13 +76,23 @@ document.getElementById('add').addEventListener('click', function(){
     tasks[`task-${idNum}`]['light-styles-open'] = false;
     tasks[`task-${idNum}`]['dark-styles-open'] = false;
     tasks[`task-${idNum}`]['custom-styles-open'] = false;
+
     tasks[`task-${idNum}`]['font-styles-open'] = false;
+
+    tasks[`task-${idNum}`]["light-arrow-toggled"] = false;
+    tasks[`task-${idNum}`]["dark-arrow-toggled"] = false;
+    tasks[`task-${idNum}`]["gradient-arrow-toggled"] = false;
+    tasks[`task-${idNum}`]["custom-arrow-toggled"] = false;
+
+
 
     tasks[`task-${idNum}`]['order-ratio'] = 0;
 
     tasks[`task-${idNum}`]["current-color"] = tasks['current-listItem-color'];
     tasks[`task-${idNum}`]["current-background"] = tasks['current-listItem-background'];
     tasks[`task-${idNum}`]["current-value"] = null;
+
+
     
     // Renders the HTML version of the list item in the page
     document.getElementById("main-content").insertAdjacentHTML("beforeend", `
@@ -130,9 +105,10 @@ document.getElementById('add').addEventListener('click', function(){
             <label class="checkbox">
 
                 <input type="checkbox" id="check-${idNum}">
-                <input id="input-${idNum}" class="input is-info ml-4 personalized-input" type="text" placeholder="click here to enter text">
+                <input id="input-${idNum}" class="input is-info ml-4 personalized-input text" type="text" placeholder="click here to enter text"
+                 onfocus="this.style.color='#fffafac7'" style="background-color: #0000003b;">
 
-                <p id="to-do-${idNum}" class="is-size-5 pl-4 mb-1 hidden text"></p>
+                <p id="to-do-${idNum}" class="is-size-5 pl-4 mb-1 hidden"></p>
 
             </label>
         </div>
@@ -153,33 +129,41 @@ document.getElementById('add').addEventListener('click', function(){
         </div>
         </div>
 
-        <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} style" id="styles-${idNum}" style="display: none;" name="list-style">
+        <div class="${tasks['current-listItem-background']} ${tasks['current-listItem-color']} style noselect" id="styles-${idNum}" style="display: none;" name="list-style">
             <h2 class="is-size-4 ml-4 pt-3">Style</h2>
             <p id="tip" style="opacity: 60%;margin-left: 17px;margin-top: 10px;margin-bottom: 35px;font-size: 0.93rem;">
                 Tip: press <b>shift + click</b> to apply the style to <b><i>all</i></b> list items 
             </p>
 
             <div class="block-${idNum}">
-                <div class="styles-container">
+                <div class="flex pointer style-container" id="light-arrow-${idNum}">
+                    <h2 class="is-size-5 link-text hover">Default colors</h2>
+                    <i class="fas fa-chevron-up arrow-icon pointer rotate hover" id="light-arrow-q-${idNum}"></i>
+                </div>
+                <div class="styles-container noselect" style="display: none; " id="q-${idNum}">
 
-                    <h3 unselectable="on" id="zzz-${idNum}" class="has-text-purple has-background-purple-light is-size-5 style-block darkblue-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="xxx-${idNum}" class="has-text-orange has-background-orange is-size-5 style-block primary-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="ccc-${idNum}" class="has-text-irish-green has-background-irish is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="vvv-${idNum}" class="has-text-pink has-background-pink is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="zzz-${idNum}" class="has-text-purple has-background-purple-light is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="xxx-${idNum}" class="has-text-orange has-background-orange is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="ccc-${idNum}" class="has-text-irish-green has-background-irish is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="vvv-${idNum}" class="has-text-pink has-background-pink is-size-5 style-block pointer">Abc</h3>
 
-                    <h3 unselectable="on" id="red-${idNum}" class="has-text-danger has-background-danger-light is-size-5 style-block red-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="yel-${idNum}" class="has-text-warning-dark has-background-warning-light is-size-5 style-block yellow-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="gre-${idNum}" class="has-text-success has-background-success-light is-size-5 style-block green-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="blu-${idNum}" class="has-text-info has-background-info-light is-size-5 style-block blue-border pointer">Abc</h3>
-    
-                    <h3 unselectable="on" id="dar-${idNum}" class="has-text-link has-background-link-light is-size-5 style-block darkblue-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="pri-${idNum}" class="has-text-primary has-background-primary-light is-size-5 style-block primary-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="q1q-${idNum}" class="has-text-rouge has-background-rouge is-size-5 style-block darkblue-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="w2w-${idNum}" class="has-text-bluey has-background-bluey is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="red-${idNum}" class="has-text-danger has-background-danger-light is-size-5 style-block red-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="yel-${idNum}" class="has-text-warning-dark has-background-warning-light is-size-5 style-block yellow-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="gre-${idNum}" class="has-text-success has-background-success-light is-size-5 style-block green-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="blu-${idNum}" class="has-text-info has-background-info-light is-size-5 style-block blue-border pointer">Abc</h3>
+     
+                    <h3 unselectable="on" name="light" id="dar-${idNum}" class="has-text-link has-background-link-light is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="pri-${idNum}" class="has-text-primary has-background-primary-light is-size-5 style-block primary-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="q1q-${idNum}" class="has-text-rouge has-background-rouge is-size-5 style-block darkblue-border pointer">Abc</h3>
+                    <h3 unselectable="on" name="light" id="w2w-${idNum}" class="has-text-bluey has-background-bluey is-size-5 style-block primary-border pointer">Abc</h3>
                 </div>
             </div>
             <div class="block-${idNum}">
-                <div class="styles-container">
+                <div class="flex pointer style-container" id="dark-arrow-${idNum}">
+                    <h2 class="is-size-5 link-text hover">Rainbow colors</h2>
+                    <i class="fas fa-chevron-up arrow-icon pointer rotate hover" id="dark-arrow-q-${idNum}"></i>
+                </div>
+                <div class="styles-container noselect" style="display: none;" id="k-${idNum}">
                     <h3 unselectable="on" id="inf-${idNum}" class="has-text-white has-background-info-dark is-size-5 style-block darkblue-border pointer">Abc</h3>
                     <h3 unselectable="on" style="border-color: transparent;" id="suc-${idNum}" class="has-text-white has-background-success-dark is-size-5 style-block primary-border pointer">Abc</h3>
                     <h3 unselectable="on" id="war-${idNum}" class="has-text-white has-background-warning-dark is-size-5 style-block pointer">Abc</h3>
@@ -223,44 +207,52 @@ document.getElementById('add').addEventListener('click', function(){
                 </div>
             </div>
             <div class="block-${idNum}">
-                <div class="styles-container">
-                    <h3 unselectable="on" id="inf-${idNum}" class="has-text-white has-background-info-dark is-size-5 style-block darkblue-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="suc-${idNum}" class="has-text-white has-background-success-dark is-size-5 style-block primary-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="war-${idNum}" class="has-text-white has-background-warning-dark is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="dan-${idNum}" class="has-text-white has-background-danger-dark is-size-5 style-block pointer">Abc</h3>
+                  <div class="flex pointer style-container" id="gradient-arrow-${idNum}">
+                      <h2 class="is-size-5 link-text hover">Gradient colors</h2>
+                      <i class="fas fa-chevron-up arrow-icon pointer rotate hover" id="gradient-arrow-q-${idNum}"></i>
+                  </div>
+                <div class="styles-container noselect" style="display: none;" id="g-${idNum}">
+                    <h3 unselectable="on" id="100-${idNum}" class="has-text-white gradient-1 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="101-${idNum}" class="has-text-white gradient-2 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="102-${idNum}" class="has-text-white gradient-3 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="103-${idNum}" class="has-text-white gradient-4 is-size-5 style-block pointer">Abc</h3>
 
-                    <h3 unselectable="on" id="aaa-${idNum}" class="has-text-white has-background-darker-gray is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="sss-${idNum}" class="has-text-white has-background-grey is-size-5 style-block darkblue-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="ddd-${idNum}" class="has-text-azure has-background-grey-light is-size-5 style-block primary-border pointer">Abc</h3>
-                    <h3 unselectable="on" id="fff-${idNum}" class="has-text-black has-background-white is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="104-${idNum}" class="has-text-white gradient-5 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="105-${idNum}" class="has-text-white gradient-6 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="106-${idNum}" class="has-text-white gradient-7 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="107-${idNum}" class="has-text-white gradient-8 is-size-5 style-block pointer">Abc</h3>
 
-                    <h3 unselectable="on" id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="pid-${idNum}" class="has-text-white has-background-primary-dark is-size-5 style-block pointer">Abc</h3>
-                    <h3 unselectable="on" id="noy-${idNum}" class="has-text-white has-background-link-dark is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="108-${idNum}" class="has-text-white gradient-9 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="109-${idNum}" class="has-text-white gradient-10 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="110-${idNum}" class="has-text-white gradient-11 is-size-5 style-block pointer">Abc</h3>
+                    <h3 unselectable="on" id="111-${idNum}" class="has-text-white gradient-12 is-size-5 style-block pointer">Abc</h3>
                 </div>
             </div>
 
 
 
-            <div style="display: flex; flex-direction: column; padding: 15px;"
+            <div style="display: flex; flex-direction: column;"
             <hr>
-                <h2 class="is-size-4 ml-4 pt-3 pb-2">Custom</h2>
-                <br>
+                <div class="flex pointer style-container" id="custom-arrow-${idNum}">
+                    <h2 class="is-size-5 link-text hover">Custom</h2>
+                    <i class="fas fa-chevron-up arrow-icon pointer rotate hover" id="custom-arrow-q-${idNum}"></i>
+                </div>
                 
-                <div style="display: flex; flex-direction: column;"
-                    <div class="flex">
-                    <div class="flex custom-container">
-                        <label for="txt" class="is-size-5 pb-1">Text Color: </label>
-                        <input type="color" class="pointer" id="txt-${idNum}" name="txt">
-                    </div>
-                    <div class="flex custom-container">
-                        <label for="bg" class="is-size-5 pb-1">Background Color: </label>
-                        <input type="color" class="pointer" id="bg-${idNum}" name="bg">
-                    </div>
-                    <div class="flex custom-container" style="margin-top: 0;">
-                        <button id="custom-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply</button>
-                        <button id="aply-to-all-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply to all</button>
+                <div style="display: flex; justify-content: flex-start; margin-left: 30px; margin-bottom: 30px">
+                    <div style="display: none; flex-direction: column;" id="c-${idNum}"
+                        <div class="flex">
+                        <div class="flex custom-container">
+                            <label for="txt" class="is-size-5 pb-1">Text Color: </label>
+                            <input type="color" class="pointer" id="txt-${idNum}" name="txt" value="#424fff">
+                        </div>
+                        <div class="flex custom-container">
+                            <label for="bg" class="is-size-5 pb-1">Background Color: </label>
+                            <input type="color" class="pointer" id="bg-${idNum}" name="bg" value="#c4cae3">
+                        </div>
+                        <div class="flex custom-container" style="margin-top: 0;">
+                            <button id="custom-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply</button>
+                            <button id="aply-to-all-${idNum}" class="button is-primary pointer" style="margin: 10px 10px;">Apply to all</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -273,10 +265,77 @@ document.getElementById('add').addEventListener('click', function(){
     </div>
     `);
 
-    // Saves data to local storage
 
-    // localStorage.setItem(`item-${idNum}`, JSON.stringify(document.getElementById(`list-item-${idNum}`) ));
-    // print(localStorage);
+    document.getElementById(`light-arrow-${idNum}`).addEventListener('click', function(){
+        
+        if (tasks[`task-${extractNum(this.id)}`]["light-arrow-toggled"] === false){
+
+            document.getElementById(`q-${extractNum(this.id)}`).style.display = 'grid';
+            document.getElementById(`light-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(0deg)';
+            tasks[`task-${extractNum(this.id)}`]["light-arrow-toggled"] = true;
+            
+        } else {
+
+            document.getElementById(`q-${extractNum(this.id)}`).style.display = 'none';
+            document.getElementById(`light-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(-180deg)';
+            tasks[`task-${extractNum(this.id)}`]["light-arrow-toggled"] = false;
+
+        }
+    });
+
+    document.getElementById(`dark-arrow-${idNum}`).addEventListener('click', function(){
+
+        if (tasks[`task-${extractNum(this.id)}`]["dark-arrow-toggled"] === false){
+
+            document.getElementById(`k-${extractNum(this.id)}`).style.display = 'grid';
+            document.getElementById(`dark-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(0deg)';
+            tasks[`task-${extractNum(this.id)}`]["dark-arrow-toggled"] = true;
+
+        } else {
+
+            document.getElementById(`k-${extractNum(this.id)}`).style.display = 'none';
+            document.getElementById(`dark-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(-180deg)';
+            tasks[`task-${extractNum(this.id)}`]["dark-arrow-toggled"] = false;
+
+        }
+    });
+    
+    // Todo: add event listeners here
+    document.getElementById(`gradient-arrow-${idNum}`).addEventListener('click', function(){
+
+        if (tasks[`task-${extractNum(this.id)}`]["gradient-arrow-toggled"] === false){
+
+            document.getElementById(`g-${extractNum(this.id)}`).style.display = 'grid';
+            document.getElementById(`gradient-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(0deg)';
+            tasks[`task-${extractNum(this.id)}`]["gradient-arrow-toggled"] = true;
+            
+        } else {
+
+            document.getElementById(`g-${extractNum(this.id)}`).style.display = 'none';
+            document.getElementById(`gradient-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(-180deg)';
+            tasks[`task-${extractNum(this.id)}`]["gradient-arrow-toggled"] = false;
+
+        }
+
+    });
+
+    document.getElementById(`custom-arrow-${idNum}`).addEventListener('click', function(){
+
+        if (tasks[`task-${extractNum(this.id)}`]["custom-arrow-toggled"] === false){
+
+            document.getElementById(`c-${extractNum(this.id)}`).style.display = 'block';
+            document.getElementById(`custom-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(0deg)';
+            tasks[`task-${extractNum(this.id)}`]["custom-arrow-toggled"] = true;
+
+        } else {
+
+            document.getElementById(`c-${extractNum(this.id)}`).style.display = 'none';
+            document.getElementById(`custom-arrow-q-${extractNum(this.id)}`).style.transform = 'rotate(-180deg)';
+            tasks[`task-${extractNum(this.id)}`]["custom-arrow-toggled"] = false;
+
+        }
+
+    });
 
     // Apply flexbox order number for ordering features
     document.getElementById(`list-item-${idNum}`).style.order = String(idNum);
@@ -315,7 +374,7 @@ document.getElementById('add').addEventListener('click', function(){
 
             }
             tasks['current-listItem-background'] = evt.currentTarget.bgColor;
-            tasks['current-listItem-color'] = evt.currentTarget.textColor;
+            tasks['current-listItem-color'] = evt.currentTarget.textColor;      
             
             // Removes custom styles if any
          
@@ -418,7 +477,7 @@ document.getElementById('add').addEventListener('click', function(){
 
         document.getElementById(`${extractNum(this.id)}`).style.padding = '16px';
         document.getElementById(`${extractNum(this.id)}`).style.border = 'none';
-        document.getElementById(`styles-${extractNum(this.id)}`).style.border = 'none';
+        document.getElementById(`styles-${extractNum(this.id)}`).style.border = 'none'; 
         document.getElementById(`${extractNum(this.id)}`).style.marginTop = '16px';
     }
     function addToAll(){
@@ -463,7 +522,7 @@ document.getElementById('add').addEventListener('click', function(){
         }
     }
     
-    // !!!!!!! USE THESE TO WINDOW.ONLOAD !!!!!!!!!!!
+   
     document.getElementById(`custom-${idNum}`).addEventListener('click', addCustomStyle);
     document.getElementById(`aply-to-all-${idNum}`).addEventListener('click', addToAll)
     
@@ -472,8 +531,13 @@ document.getElementById('add').addEventListener('click', function(){
         document.getElementById(`${name}-${idNum}`).idNumber = idNum;
         document.getElementById(`${name}-${idNum}`).textColor = color;
         document.getElementById(`${name}-${idNum}`).bgColor = background;
+        if (document.getElementById(`${name}-${idNum}`).name !== 'light'){
+            tasks['colorlight'] = true;
+        } else{
+            tasks['colorlight'] = false;
+        }
     }
-    // !!!!!!! USE THESE TO WINDOW.ONLOAD !!!!!!!!!!!
+   
 
     // Styles
     helperAdd('red', 'has-text-danger', 'has-background-danger-light');
@@ -521,6 +585,18 @@ document.getElementById('add').addEventListener('click', function(){
     helperAdd('ded', 'has-text-white', 'r');
     helperAdd('frf', 'has-text-white', 's');
     helperAdd('lol', 'has-text-white', 't');
+    helperAdd('100', 'has-text-white', 'gradient-1');
+    helperAdd('101', 'has-text-white', 'gradient-2');
+    helperAdd('102', 'has-text-white', 'gradient-3');
+    helperAdd('103', 'has-text-white', 'gradient-4');
+    helperAdd('104', 'has-text-white', 'gradient-5');
+    helperAdd('105', 'has-text-white', 'gradient-6');
+    helperAdd('106', 'has-text-white', 'gradient-7');
+    helperAdd('107', 'has-text-white', 'gradient-8');
+    helperAdd('108', 'has-text-white', 'gradient-9');
+    helperAdd('109', 'has-text-white', 'gradient-10');
+    helperAdd('110', 'has-text-white', 'gradient-11');
+    helperAdd('111', 'has-text-white', 'gradient-12');
 
     // Get the input field
     var input = document.getElementById(`input-${idNum}`);
@@ -593,6 +669,9 @@ document.getElementById('add').addEventListener('click', function(){
             document.getElementById(`edit-${extractNum(this.id)}`).style.display = 'block';
             document.getElementById(`style-${extractNum(this.id)}`).style.display = 'block';
             document.getElementById(`bin-${extractNum(this.id)}`).style.display = 'block';
+            if (screen.width < 600){
+                document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'none';
+            }
             // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'block';
             // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'block';
 
@@ -605,6 +684,10 @@ document.getElementById('add').addEventListener('click', function(){
             document.getElementById(`styles-${extractNum(this.id)}`).style.display = 'none';
             // document.getElementById(`up-${extractNum(this.id)}`).style.display = 'none';
             // document.getElementById(`down-${extractNum(this.id)}`).style.display = 'none';
+
+            if (screen.width < 600){
+                document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'block';
+            }
  
             tasks[`task-${extractNum(this.id)}`]["styles-open"] = false;
             tasks[`task-${extractNum(this.id)}`]["expanded"] = false;
@@ -697,8 +780,7 @@ function turnDark(){
         tasks['currentAddColor'] = 'white';
         tasks['currentClearColor'] = 'white';
         tasks['currentListTitleColor'] = 'white';
-        tasks['current-background'] = 'none';
-        tasks['current-blurr'] = 'none';
+
     } else {
         document.getElementById('htm').style.backgroundColor = '#fff';
         document.getElementsByClassName('navbar')[0].style.backgroundColor = 'rgb(242 242 242)';
@@ -721,8 +803,7 @@ function turnDark(){
         tasks['currentAddColor'] = 'black';
         tasks['currentClearColor'] = 'black';
         tasks['currentListTitleColor'] = 'black';
-        tasks['current-background'] = 'none';
-        tasks['current-blurr'] = 'none';
+
     }
     
 }
@@ -776,7 +857,7 @@ function toggle0(){
     }
     
 }
-// show more list theme func
+// show list theme func
 function toggle1(){
     
     if (tasks["listThemeToggled"] === false){
@@ -785,6 +866,13 @@ function toggle1(){
         document.getElementById('moon-theme').style.display = 'block';
         document.getElementById('mountain-theme').style.display = 'block';
         document.getElementById('beach-theme').style.display = 'block';
+        document.getElementById('norway-theme').style.display = 'block';
+        document.getElementById('boat-theme').style.display = 'block';
+        document.getElementById('sunset-theme').style.display = 'block';
+        document.getElementById('shrek-theme').style.display = 'block';
+        document.getElementById('forest-theme').style.display = 'block';
+
+        document.getElementById('nature-themes').style.display = 'flex';
 
         document.getElementById('arr-2').style.transform = 'rotate(0deg)';
         tasks["listThemeToggled"] = true;
@@ -794,6 +882,13 @@ function toggle1(){
         document.getElementById('moon-theme').style.display = 'none';
         document.getElementById('mountain-theme').style.display = 'none';
         document.getElementById('beach-theme').style.display = 'none';
+        document.getElementById('norway-theme').style.display = 'none';
+        document.getElementById('shrek-theme').style.display = 'none';
+        document.getElementById('forest-theme').style.display = 'none';
+        document.getElementById('sunset-theme').style.display = 'none';
+        document.getElementById('boat-theme').style.display = 'none';
+
+        document.getElementById('nature-themes').style.display = 'none';
 
         document.getElementById('arr-2').style.transform = 'rotate(-180deg)';
 
@@ -802,6 +897,18 @@ function toggle1(){
 }
 document.getElementsByClassName('rotate')[1].addEventListener('click', toggle1);
 document.getElementsByClassName('rotate')[0].addEventListener('click', toggle0);
+document.getElementsByClassName('rotate')[2].addEventListener('click', function(){
+    if (tasks["natureThemeToggled"] === false){
+        document.getElementById('nature-pictures').style.display = 'block';
+        document.getElementById('arr-3').style.transform = 'rotate(0deg)';
+        tasks["natureThemeToggled"] = true;
+    }
+    else {
+        document.getElementById('nature-pictures').style.display = 'none';
+        document.getElementById('arr-3').style.transform = 'rotate(-180deg)';
+        tasks["natureThemeToggled"] = false;
+    }
+})
 
 // Add-theme function
 function addTheme(e){
@@ -843,6 +950,16 @@ addThemeHelper('canada', 'black', 'black', 'black', 'has-background-canada', 'ha
 addThemeHelper('moon', 'white', 'white', 'white', 'has-background-moon', 'has-blurred-background');
 // Mountains theme
 addThemeHelper('mountain', 'white', 'white', 'black', 'has-background-mountain', 'has-blurred-background');
+// Norway theme
+addThemeHelper('norway', 'white', 'white', 'white', 'has-background-norway', 'has-blurred-background');
+// Boat theme
+addThemeHelper('boat', 'white', 'white', 'white', 'has-background-boat', 'has-blurred-background');
+// Boat theme
+addThemeHelper('sunset', 'white', 'white', 'white', 'has-background-sunset', 'has-blurred-background');
+// Boat theme
+addThemeHelper('shrek', 'white', 'white', 'white', 'has-background-shrek', 'has-blurred-background');
+// Boat theme
+addThemeHelper('forest', 'black', 'black', 'black', 'has-background-forest', 'has-blurred-background');
 
 document.getElementById('default').addEventListener('click', function(){
     document.getElementById(`htm`).classList.remove(tasks['current-background']);
@@ -852,12 +969,20 @@ document.getElementById('default').addEventListener('click', function(){
         document.getElementById('add').style.color = 'white';
         document.getElementById('clear').style.color = 'white';
         document.getElementById('list-title').style.color = 'white';
+        tasks['currentAddColor'] = 'white';
+        tasks['currentClearColor'] = 'white';
+        tasks['currentListTitleColor'] = 'white';
     } else {
         document.getElementById('add').style.color = 'black';
         document.getElementById('clear').style.color = 'black';
         document.getElementById('list-title').style.color = 'black';
+        tasks['currentAddColor'] = 'black';
+        tasks['currentClearColor'] = 'black';
+        tasks['currentListTitleColor'] = 'black';
     }
     tasks['has-theme'] = false;
+    tasks["current-background"] = null;
+    tasks['current-blurr'] = null;
 });
 
 // changes list title
@@ -870,5 +995,11 @@ document.getElementById('update-title').addEventListener('click', function(){
 window.onbeforeunload = function(){
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('idNumber', idNum);
-    localStorage.setItem('list', document.getElementById('main-content').outerHTML);
+
+    let i = 0;
+    for (let listItem of document.getElementById('main-content').children){
+        localStorage.setItem(`list-item-${i}`, listItem.outerHTML);
+        i++;
+    }
+    
 };
