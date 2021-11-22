@@ -43,7 +43,7 @@
         </li>
 
         <li class="nav-item">
-          <span class="new">NEW</span>
+
           <div class="flex">
             <h2 class="is-size-5 link-text">Theme</h2>
             <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-2"></i>
@@ -54,54 +54,116 @@
           </div>
 
           <div class="nature-container">
-
-            <!-- Canada theme -->
-            <div class="themes-container pl-2 pr-2" id="canada-theme">
-              <div class="pointer mt-5">
-                <div class="flex">
-                  <h2 class="is-size-4 mb-3">Canadian Wilderness</h2>
-                </div>
-                <img src="Icons/pexels-eberhard-grossgasteiger-443446.jpg" id="canada" class="theme" alt="Canadian Background">
-              </div>
+            <div class="flex" id="nature-themes" style="display: none;">
+              <h2 class="is-size-5 link-text">Nature</h2>
+              <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-3"></i>
             </div>
-            
-            <!-- moon theme -->
-            <div class="themes-container pl-2 pr-2" id="moon-theme">
-              <div class="pointer">
-                <div class="flex">
-                  <div class="column">
-                    <h2 class="is-size-4 mb-3">Moon & Tree</h2>
-                    <p>(looks good on dark mode)</p>
+            <div id="nature-pictures" style="display: none;">
+
+              <!-- Canada theme -->
+              <div class="themes-container pl-2 pr-2" id="canada-theme">
+                <div class="pointer mt-5">
+                  <div class="flex">
+                    <h2 class="is-size-4 mb-3">Canadian Wilderness</h2>
+                  </div>
+                  <img src="Icons/pexels-eberhard-grossgasteiger-443446.jpg" id="canada" class="theme" alt="Canadian Background">
+                </div>
+              </div>
+              
+              <!-- moon theme -->
+              <div class="themes-container pl-2 pr-2" id="moon-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Moon & Tree</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-david-besh-884788.jpg" id="moon" class="theme" alt="Moon and tree">
+                </div>
+              </div>
+
+              <!-- Boat theme -->
+              <div class="themes-container pl-2 pr-2" id="boat-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Ocean Sunset</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-johannes-plenio-2850287.jpg" id="boat" class="theme" alt="Boat Sunset">
+                </div>
+              </div>
+
+              <!-- mountain theme -->
+              <div class="themes-container pl-2 pr-2" id="mountain-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Mountains</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-roberto-shumski-1903702.jpg" id="mountain" class="theme" alt="Mountains">
+                </div>
+              </div>
+
+              <!-- Beach theme -->
+              <div class="themes-container pl-2 pr-2" id="beach-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Palm tree beach</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-fabian-wiktor-994605.jpg" id="beach" class="theme" alt="Mountains">
+                </div>
+              </div>
+              <!-- Sunset theme -->
+              <div class="themes-container pl-2 pr-2" id="sunset-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Sunset</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-pixabay-461940.jpg" id="sunset" class="theme" alt="Sunset">
+                </div>
+              </div>
+
+              <!-- Norway theme -->
+              <div class="themes-container pl-2 pr-2" id="norway-theme">
+                <div class="pointer">
+                  <div class="flex">
+                    <div class="column">
+                      <h2 class="is-size-4 mb-3">Aurora Boreallis</h2>
+                    </div>
+                  </div>
+                  <img src="Icons/pexels-tobias-bjørkli-2113566.jpg" id="norway" class="theme" alt="Norway">
+                </div>
+              </div>
+
+                <!-- Forest theme -->
+                <div class="themes-container pl-2 pr-2" id="forest-theme">
+                  <div class="pointer">
+                    <div class="flex">
+                      <div class="column">
+                        <h2 class="is-size-4 mb-3">Pine forest</h2>
+                      </div>
+                    </div>
+                    <img src="Icons/forest-3622519.jpg" id="forest" class="theme" alt="Pine forest">
                   </div>
                 </div>
-                <img src="Icons/pexels-david-besh-884788.jpg" id="moon" class="theme" alt="Moon and tree">
-              </div>
-            </div>
 
-            <!-- mountain theme -->
-            <div class="themes-container pl-2 pr-2" id="mountain-theme">
-              <div class="pointer">
-                <div class="flex">
-                  <div class="column">
-                    <h2 class="is-size-4 mb-3">Mountains</h2>
+                <!-- Shrek theme -->
+                <div class="themes-container pl-2 pr-2" id="shrek-theme">
+                  <div class="pointer">
+                    <div class="flex">
+                      <div class="column">
+                        <h2 class="is-size-4 mb-3">Shrek's Swamp</h2>
+                      </div>
+                    </div>
+                    <img src="Icons/CuShj4j.jpg" id="shrek" class="theme" alt="Shrek">
                   </div>
                 </div>
-                <img src="Icons/pexels-roberto-shumski-1903702.jpg" id="mountain" class="theme" alt="Mountains">
-              </div>
-            </div>
-
-            <!-- Beach theme -->
-            <div class="themes-container pl-2 pr-2" id="beach-theme">
-              <div class="pointer">
-                <div class="flex">
-                  <div class="column">
-                    <h2 class="is-size-4 mb-3">Palm tree beach</h2>
-                  </div>
-                </div>
-                <img src="Icons/pexels-fabian-wiktor-994605.jpg" id="beach" class="theme" alt="Mountains">
-              </div>
-            </div>
-
 
 
 
@@ -122,9 +184,9 @@
           <div class="flex" style="flex-direction: column; align-items: flex-start; padding: 0 20px; opacity: 95%;">
             <h2 class="is-size-5 link-text">Developer News</h2>
             
-              <span class="new mt-5">Nov 15 2021</span>
-              <p>I added new background themes. Next up: more styles and gradient stuff!</p>
-              <p>Version: 0.9.3</p>
+              <span class="new mt-5">Nov 22 2021</span>
+              <p>New update: New themes and gradient backgrounds</p>
+              <p>Version: 0.9.5</p>
 
               <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
                 <span class="new mt-5">Nov 13 2021</span>
@@ -169,6 +231,11 @@
             <li style="margin-left: 8px;">Eberhard Grossgasteiger - Wilderness</li>
             <li style="margin-left: 8px;">Fabian Wiktor - Palm tree beach</li>
             <li style="margin-left: 8px;">Roberto Shumski - Mountains</li>
+            <li style="margin-left: 8px;">Eberhard Grossgasteiger - Clouds</li>
+            <li style="margin-left: 8px;">Johannes Plenio - Ocean Sunset</li>
+            <li style="margin-left: 8px;">Pixabay - Sunset</li>
+            <li style="margin-left: 8px;">Tobias Bjørkli - Aurora Boreallis</li>
+            <li style="margin-left: 8px;">Dreamworks - Shrek's Swamp</li>
           </ul>
         </li>
   
@@ -183,7 +250,7 @@
             <h1 class="title" id="list-title">
                 To-do:
               </h1>
-              <p class="is-size-4 pl-4 mb-1 pointer mb-2" id="add">Add</p>
+              <p class="is-size-4 pl-4 mb-1 pointer mb-2 noselect btn" id="add">Add</p>
         </div>
 
       
@@ -199,7 +266,7 @@
             <button id="yes" class="button is-danger">Yes</button>
           </div>
       </div>
-      <p class="is-size-5 pl-4 pointer mt-5" id="clear">Clear</p>
+      <p class="is-size-5 pl-4 pointer mt-5 noselect btn" id="clear">Clear</p>
     </div>
 
 

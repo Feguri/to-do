@@ -33,6 +33,41 @@ html {
     -o-background-size: cover;
     background-size: cover;
 }
+.has-background-norway {
+    background: url(Icons/pexels-tobias-bjørkli-2113566.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.has-background-boat {
+    background: url(Icons/pexels-johannes-plenio-2850287.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.has-background-sunset {
+    background: url(Icons/pexels-pixabay-461940.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.has-background-shrek {
+    background: url(Icons/CuShj4j.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.has-background-forest {
+    background: url(Icons/forest-3622519.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
 .iconic {
     align-items: center;
@@ -167,11 +202,36 @@ h3:hover {
     border: 1px solid hsl(48, 100%, 67%);
 } */
 
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+.text:hover {
+    cursor: text;
+}
+.hover:hover {
+    opacity: 85%;
+}
+
+.btn:hover {
+    opacity: 90%;
+}
+.style-container {
+    margin: 0 30px;
+    width: 82%;
+    margin-bottom: 15px;
+}
+
 
 
 .custom-container {
     background-color: #c3bfe94a;
-    width: 60%;
     padding: 14px;
 }
 
@@ -392,6 +452,66 @@ h3:hover {
 .t {
     background-color: #002ff063;
 }
+
+.gradient-1 {
+    background-image: linear-gradient(30deg, #1500a4, #d43333);
+    border: transparent;
+}
+.gradient-2 {
+    background-image: linear-gradient(30deg, #ffcc00, #ff0000e6);;
+    border: transparent;
+}
+
+.gradient-3 {
+    background-image: linear-gradient(30deg, #009723, #eb2020d9);
+    border: transparent;
+}
+
+.gradient-4 {
+    background-image: linear-gradient(30deg, #00a490, #d43333);
+    border: transparent;
+}
+
+.gradient-5 {
+    background-image: linear-gradient(90deg, #9592ab, #264099);
+    border: transparent;
+}
+
+.gradient-6 {
+    background-image: linear-gradient(30deg, #0b0916, #d43333);
+    border: transparent;
+}
+
+.gradient-7 {
+    background-image: linear-gradient(30deg, #2196F3, #CDDC39);
+    border: transparent;
+}
+
+.gradient-8 {
+    background-image: linear-gradient(30deg, #4CAF50, #9E9E9E);
+    border: transparent;
+}
+
+.gradient-9 {
+    background-image: linear-gradient(30deg, #3F51B5, #00BCD4);
+    border: transparent;
+}
+
+.gradient-10 {
+    background-image: linear-gradient(30deg, #E91E63, #9C27B0);
+    border: transparent;
+}
+
+.gradient-11 {
+    background-image: linear-gradient(30deg, #e91edf, #00BCD4);
+    border: transparent;
+}
+
+.gradient-12 {
+    background-image: linear-gradient(30deg, #76db00, #000000);
+    border: transparent;
+}
+
 
 .theme {
     border-radius: 8px;
