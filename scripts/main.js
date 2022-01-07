@@ -6,6 +6,7 @@ tasks["darkmodeToggled"] = false;
 tasks["navbarToggled"] = false;
 tasks["listNameToggled"] = false;
 tasks["listThemeToggled"] = false;
+tasks["customThemeToggled"] = false;
 tasks["background-blurred"] = false;
 tasks["natureThemeToggled"] = false;
 tasks["current-background"] = null;
@@ -124,7 +125,7 @@ document.getElementById('add').addEventListener('click', function(){
                 <img id="bin-${idNum}" src="Icons/bin.png" class="iconic mr-4" alt="delete" style="opacity: 70%; display: none;">
 
                 <!-- More options button -->
-                <img id="more-${idNum}" src="Icons/more.png" class="ml-4 iconic" style="opacity: 54%; display:none;" alt="more">
+                <img id="more-${idNum}" src="Icons/more-options-icon-12.jpg" class="ml-4 iconic" style=" display:none;" alt="more">
             </div>
         </div>
         </div>
@@ -613,15 +614,19 @@ document.getElementById('add').addEventListener('click', function(){
         document.getElementById(`input-${extractNum(this.id)}`).style.display = 'none';
         document.getElementById(`set-${extractNum(this.id)}`).style.display = 'none';
 
-        if (tasks[`task-${extractNum(this.id)}`]["is-set"] === false){
+        document.getElementById(extractNum(this.id)).addEventListener('mouseover', function(){
             document.getElementById(`more-${extractNum(this.id)}`).style.display = 'block';
-
-            tasks[`task-${extractNum(this.id)}`]["is-set"] === true;
-        } else {
+        });
+        document.getElementById(extractNum(this.id)).addEventListener('mouseout', function(){
             document.getElementById(`more-${extractNum(this.id)}`).style.display = 'none';
+        });
+        document.getElementById(`styles-${extractNum(this.id)}`).addEventListener('mouseover', function(){
+            document.getElementById(`more-${extractNum(this.id)}`).style.display = 'block';
+        });
+        document.getElementById(`styles-${extractNum(this.id)}`).addEventListener('mouseout', function(){
+            document.getElementById(`more-${extractNum(this.id)}`).style.display = 'none';
+        });
 
-            tasks[`task-${extractNum(this.id)}`]["is-set"] === false;
-        }
     });
 
     
@@ -709,15 +714,14 @@ document.getElementById('add').addEventListener('click', function(){
             document.getElementById(`to-do-${extractNum(this.id)}`).style.display = 'block';
             document.getElementById(`input-${extractNum(this.id)}`).style.display = 'none';
             document.getElementById(`set-${extractNum(this.id)}`).style.display = 'none';
-            if (tasks[`task-${extractNum(this.id)}`]["is-set"] === false){
+
+            document.getElementById(extractNum(this.id)).addEventListener('mouseover', function(){
                 document.getElementById(`more-${extractNum(this.id)}`).style.display = 'block';
-    
-                tasks[`task-${extractNum(this.id)}`]["is-set"] === true;
-            } else {
+            });
+            document.getElementById(extractNum(this.id)).addEventListener('mouseout', function(){
                 document.getElementById(`more-${extractNum(this.id)}`).style.display = 'none';
-    
-                tasks[`task-${extractNum(this.id)}`]["is-set"] === false;
-            }
+            })
+            
         }
     });
 
@@ -895,8 +899,22 @@ function toggle1(){
         tasks["listThemeToggled"] = false;
     }
 }
+
+function toggleCustonTheme(){
+    if (tasks["customThemeToggled"] === false){
+        document.querySelector('.upload-content').style.display = 'block';
+        document.getElementById('arr-4').style.transform = 'rotate(0deg)';
+        tasks["customThemeToggled"] = true;
+    } else {
+        document.querySelector('.upload-content').style.display = 'none';
+        document.getElementById('arr-4').style.transform = 'rotate(-180deg)';
+        tasks["customThemeToggled"] = false;
+    }
+}
+
 document.getElementsByClassName('rotate')[1].addEventListener('click', toggle1);
 document.getElementsByClassName('rotate')[0].addEventListener('click', toggle0);
+document.getElementById('arr-4').addEventListener('click', toggleCustonTheme);
 document.getElementsByClassName('rotate')[2].addEventListener('click', function(){
     if (tasks["natureThemeToggled"] === false){
         document.getElementById('nature-pictures').style.display = 'block';
@@ -942,27 +960,29 @@ function addThemeHelper(theme, colorAdd, colorClear, colorTitle, background, blu
     document.getElementById(theme).newBg = background;
     document.getElementById(theme).newBlurr = blurr;
 }
-// Beach theme
+
 addThemeHelper('beach', 'black', 'black', 'black', 'has-background-beach', 'has-blurred-background');
-// Canada theme
+
 addThemeHelper('canada', 'black', 'black', 'black', 'has-background-canada', 'has-blurred-background');
-// Moon theme
+
 addThemeHelper('moon', 'white', 'white', 'white', 'has-background-moon', 'has-blurred-background');
-// Mountains theme
+
 addThemeHelper('mountain', 'white', 'white', 'black', 'has-background-mountain', 'has-blurred-background');
-// Norway theme
+
 addThemeHelper('norway', 'white', 'white', 'white', 'has-background-norway', 'has-blurred-background');
-// Boat theme
+
 addThemeHelper('boat', 'white', 'white', 'white', 'has-background-boat', 'has-blurred-background');
-// Boat theme
+
 addThemeHelper('sunset', 'white', 'white', 'white', 'has-background-sunset', 'has-blurred-background');
-// Boat theme
+
 addThemeHelper('shrek', 'white', 'white', 'white', 'has-background-shrek', 'has-blurred-background');
-// Boat theme
+
 addThemeHelper('forest', 'black', 'black', 'black', 'has-background-forest', 'has-blurred-background');
 
 document.getElementById('default').addEventListener('click', function(){
     document.getElementById(`htm`).classList.remove(tasks['current-background']);
+    document.getElementById(`htm`).style.removeProperty('background');
+
     document.getElementById(`list-bg`).classList.remove(tasks['current-blurr']);
     
     if (tasks['darkmodeToggled']){
@@ -1003,3 +1023,49 @@ window.onbeforeunload = function(){
     }
     
 };
+
+// Custom theme file reading
+
+function hideFilePopup(){
+    document.getElementById('thePopup').style.display = 'none';
+}
+document.getElementById('deletronic').addEventListener('click', hideFilePopup, false)
+const inputFile = document.querySelector('.file-input');
+
+// image handler
+inputFile.addEventListener('change', function(e){
+
+    document.querySelector('.file-name').style.textDecoration = 'none';
+
+    const fileList = inputFile.files;
+    document.querySelector('.file-name').innerHTML = fileList[0]['name'];
+
+    function imageOnlyFilter(){
+        const acceptedTypes = ['image/png', 'image/jpeg']
+        const fileType = fileList[0]['type'];
+    
+        for (let acceptedType of acceptedTypes){
+            if(acceptedType === fileType){
+                return true;
+            };
+        }
+        return false;
+    }
+    if (!imageOnlyFilter()){
+        // Means it's not a png or jpeg file
+        document.getElementById('thePopup').style.display = 'flex';
+        document.querySelector('.file-name').style.textDecoration = 'line-through';
+    } else {
+        document.getElementById('htm').classList.remove(document.getElementById('htm').classList[0]);
+        document.getElementById('htm').classList.add('has-custom-background');
+        
+        const [file] = fileList;
+        if (file) {
+            document.getElementById('htm').style.background = `url(${URL.createObjectURL(file)}) no-repeat center center fixed` ;
+        }
+        console.log(fileList);
+    }
+
+
+
+}, false);
