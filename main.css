@@ -2,6 +2,21 @@ html {
     transition: background-color 0.15s ease-in-out;
 }
 
+a {
+    color: #5b78ff;
+}
+
+.mb-2 {
+    margin-bottom: 0.8rem!important;
+}
+
+.has-custom-background {
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+}
+
 .has-background-canada {
     background: url(Icons/pexels-eberhard-grossgasteiger-443446.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
@@ -73,8 +88,8 @@ html {
     align-items: center;
     display: inline-flex;
     justify-content: center;
-    height: 2rem;
-    width: 2rem;
+    height: 1.8rem;
+    width: 1.8rem;
     background-color: #ffffff4d;
     padding: 4px;
     border-radius: 11px;
@@ -228,7 +243,20 @@ h3:hover {
     margin-bottom: 15px;
 }
 
+#settings:hover {
+    cursor: pointer;
+}
 
+.file {
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.settings-holder {
+    height: 50px;
+    width: 50px;
+
+}
 
 .custom-container {
     background-color: #c3bfe94a;
@@ -246,8 +274,8 @@ h3:hover {
     opacity: 100%;
 }
 .iconic:hover {
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 2.185rem;
+    width: 2.185rem;
 
     opacity: 100%;
 }

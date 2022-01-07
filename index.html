@@ -15,7 +15,10 @@
   <body>
 
   <nav class="navbar">
-    <i class="fas fa-bars pointer" id="settings"></i>
+    <div class="settings-holder"id="settings">
+      <i class="fas fa-bars pointer" ></i>
+    </div>
+    
     <div class="features-container">
       <ul class="navbar-nav">
 
@@ -29,7 +32,7 @@
         </li>
 
         <li class="nav-item">
-          <div class="flex mb-5">
+          <div class="flex mb-2">
             <h2 class="is-size-5 link-text">Change list title</h2>
             <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-1"></i>
           </div>
@@ -44,7 +47,7 @@
 
         <li class="nav-item">
 
-          <div class="flex">
+          <div class="flex mb-2">
             <h2 class="is-size-5 link-text">Theme</h2>
             <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-2"></i>
           </div>
@@ -171,11 +174,36 @@
 
         </li>
 
-        <li class="nav-item" style="opacity: 70%;">
-          <span class="new">COMING SOON</span>
-          <div class="flex">
-            <h2 class="is-size-5 link-text">Custom Theme</h2>
-            <i class="fas fa-chevron-up arrow-icon pointer rotate"></i>
+        <li class="nav-item">
+          <div class="flex mb-2">
+            <h2 class="is-size-5 link-text">Custom Image</h2>
+            <i class="fas fa-chevron-up arrow-icon pointer rotate" id="arr-4"></i>
+          </div>
+          <div class="upload-content" style="display: none;">
+            <div class="file has-name is-boxed">
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose an image…
+                  </span>
+                </span>
+                <span class="file-name">
+                  
+
+                </span>
+
+
+              </label>
+            </div>
+
+          </div>
+          <div class="tags has-addons mt-3" style="display: none; justify-content: center;" id="thePopup">
+            <span class="tag is-danger">It only accepts jpeg/png files.</span>
+            <a class="tag is-delete" id="deletronic"></a>
           </div>
         </li>
 
@@ -184,16 +212,23 @@
           <div class="flex" style="flex-direction: column; align-items: flex-start; padding: 0 20px; opacity: 95%;">
             <h2 class="is-size-5 link-text">Developer News</h2>
             
+            <span class="new mt-5">Jan 7 2022</span>
+            <p>New: Custom themes and UI update</p>
+            <p>Check out my new Web App Calendar: <a href="https://feguri.github.io/Calendar/" target="_blank">https://feguri.github.io/Calendar/</a></p>
+            <p>Version: 0.9.6</p>
+
+            <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
               <span class="new mt-5">Nov 22 2021</span>
               <p>New update: New themes and gradient backgrounds</p>
               <p>Version: 0.9.5</p>
-
+            </div>
               <div style="opacity: 70%; margin-top: 10px; margin-bottom: 10px;">
                 <span class="new mt-5">Nov 13 2021</span>
                 <p>New subreddit: <a href="https://www.reddit.com/r/colorlist/" target="_blank">r/colorlist</a>.
                   You can share the way you style your list there, make suggestions, and report <b>bugs</b>!</p>
                   <p>We'll get a new update and domain by Monday. I also fixed the bug where you could accidentally delete everything.</p>
                 <p>Version: 0.9.2</p>
+ 
               </div>
               
 
